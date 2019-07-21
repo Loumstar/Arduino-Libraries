@@ -48,7 +48,7 @@ int main(void){
 
 
     printf("3: Calculate new complex numbers with basic arithmetic.\n");
-    printf("    Addition by real: Assert equal 4 + i.\n");
+    printf("    Addition by real: Assert equal 4 + 2i.\n");
 
     cadd_by_real(z1, 3, result);
     printf("        %.1f + %.1fi\n", creal(result), cimag(result));

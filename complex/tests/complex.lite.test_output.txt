@@ -14,7 +14,7 @@
         PASS
 
 3: Calculate new complex numbers with basic arithmetic.
-    Addition by real: Assert equal 4 + i.
+    Addition by real: Assert equal 4 + 2i.
         4.0 + 2.0i
         PASS
 
