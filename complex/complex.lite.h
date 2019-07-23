@@ -8,11 +8,6 @@ Small script to handle complex arithmetic to be used on the arduino.
 
 typedef double complex[2];
 
-void cset_to_zero(complex z){
-    z[0] = 0; 
-    z[1] = 0;
-}
-
 double creal(const complex z){
     return z[0];
 }
@@ -25,12 +20,17 @@ double cabs(const complex z){
     return hypot(creal(z), cimag(z));
 }
 
+void cset_zero(complex z){
+    z[0] = 0; 
+    z[1] = 0;
+}
+
 void cconj(const complex z, complex target){
     target[0] = creal(z);
     target[1] = -cimag(z);
 }
 
-void cadd_by_real(const complex z1, double a, complex target){
+void cadd_real(const complex z1, double a, complex target){
     target[0] = creal(z1) + a;
     target[1] = cimag(z1);
 }
@@ -40,7 +40,7 @@ void cadd(const complex z1, const complex z2, complex target){
     target[1] = cimag(z1) + cimag(z2);
 }
 
-void csub_by_real(const complex z1, double a, complex target){
+void csub_real(const complex z1, double a, complex target){
     target[0] = creal(z1) - a;
     target[1] = cimag(z1);
 }
@@ -48,6 +48,11 @@ void csub_by_real(const complex z1, double a, complex target){
 void csub(const complex z1, const complex z2, complex target){
     target[0] = creal(z1) - creal(z2);
     target[1] = cimag(z1) - cimag(z2);
+}
+
+void cmult_real(const complex z1, double a, complex target){
+    target[0] = creal(z1) * a;
+    target[1] = cimag(z1) * a;
 }
 
 void cmult(const complex z1, const complex z2, complex target){
@@ -59,7 +64,7 @@ void cmult(const complex z1, const complex z2, complex target){
     target[1] = z3[1];
 }
 
-void cdiv_by_real(const complex z1, double a, complex target){
+void cdiv_real(const complex z1, double a, complex target){
     target[0] = creal(z1) / a;
     target[1] = cimag(z1) / a;
 }
@@ -75,7 +80,7 @@ void cdiv(const complex z1, const complex z2, complex target){
     complex z3;
     cconj(z2, z3);
     cmult(z1, z3, z3);
-    cdiv_by_real(z3, pow(cabs(z2), 2), target);
+    cdiv_real(z3, pow(cabs(z2), 2), target);
 }
 
 void cexp(const complex z, complex target){

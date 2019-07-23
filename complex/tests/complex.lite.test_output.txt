@@ -2,46 +2,55 @@
 1: Find the real and imaginary components of a complex number.
     Assert equal 1 + 2i.
         1.0 + 2.0i
-        PASS
+        PASS (took 0.000002s to execute)
 
-2: Find the modulus of a complex number.
+2: Set a complex number to zero.
+    Assert equal 0 + 0i.
+        0.0 + 0.0i
+        PASS (took 0.000000s to execute)
+
+3: Find the modulus of a complex number.
     Conjugate: Assert equal 1 + -2i.
         1.0 + -2.0i
-        PASS
+        PASS (took 0.000000s to execute)
 
     Modulus: Assert equal the square root of 5 = 2.236...
         2.236...
-        PASS
+        PASS (took 0.000010s to execute)
 
-3: Calculate new complex numbers with basic arithmetic.
+4: Calculate new complex numbers with basic arithmetic.
     Addition by real: Assert equal 4 + 2i.
         4.0 + 2.0i
-        PASS
+        PASS (took 0.000000s to execute)
 
     Addition: Assert equal 6 + 3i.
         6.0 + 3.0i
-        PASS
+        PASS (took 0.000002s to execute)
 
     Subtraction by real: Assert -1 + 2i.
         -1.0 + 2.0i
-        PASS
+        PASS (took 0.000001s to execute)
 
     Subtraction: Assert equal 4 + -1i.
         4.0 + -1.0i
-        PASS
+        PASS (took 0.000000s to execute)
+
+    Multiplication by real: Assert equal 3 + 6i.
+        3.0 + 6.0i
+        PASS (took 0.000000s to execute)
 
     Multiplication: Assert equal 3 + 11i.
         3.0 + 11.0i
-        PASS
+        PASS (took 0.000001s to execute)
 
     Division by real: Assert equals 0.833 + 1.667i.
         0.833 + 1.667i
-        PASS
+        PASS (took 0.000002s to execute)
 
     Division: Assert equal 0.269 + 0.346i.
         0.269 + 0.346i
-        PASS
+        PASS (took 0.000019s to execute)
 
     Exponential: Assert equal -1.131 + 2.472i.
         -1.131 + 2.472i
-        PASS
+        PASS (took 0.000022s to execute)
