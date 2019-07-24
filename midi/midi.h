@@ -2,8 +2,6 @@
 #define SAMPLE_RATE 44100 // standard 44.1kHz sample rate
 #define SAMPLE_FRAMES (size_t) round(SAMPLE_RATE * LATENCY)
 
-#define MAX_VOICES 10
-
 typedef double note[3]; // first element is note number, second is frequency, third is volume
 
 double note_frequency(int n){
@@ -50,14 +48,4 @@ int* read_midi(int* msg, Stream &midiDevice){
         msg[i] = midiDevice.read(); //need to check for status byte
         i++;
     }
-}
-
-double playback_amplitude(double* sample, size_t frame, double f, note* notes){
-    int a = 0;
-    size_t j;
-    for(size_t i = 0; i < MAX_VOICES; i++){
-        j = notes[i][1] / f;
-        a += sample[j] * notes[i][2];
-    }
-    return a;
 }
