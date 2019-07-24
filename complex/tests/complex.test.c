@@ -1,5 +1,5 @@
 #include <time.h>
-#include "../complex.lite.h"
+#include "../complex.h"
 #include "../../unittest/unittest.h"
 
 bool assert_complex_equal(const complex z, double real, double imag){
