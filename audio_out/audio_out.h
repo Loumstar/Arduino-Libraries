@@ -1,4 +1,6 @@
+#ifndef MAX_VOICES
 #define MAX_VOICES 10
+#endif
 
 double playback_amplitude(double* sample, size_t frame, double f, note* notes){
     int a = 0;

@@ -1,5 +1,7 @@
-#include <math.h>
+#ifndef COMPLEX_LITE_H
+#define COMPLEX_LITE_H
 
+#include <math.h>
 #define EULER M_E
 
 /*
@@ -131,3 +133,5 @@ void dcexp(const double_complex z, double_complex target){
     target[0] = z2[0];
     target[1] = z2[1];
 }
+
+#endif

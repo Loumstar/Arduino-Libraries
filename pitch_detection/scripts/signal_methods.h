@@ -1,3 +1,5 @@
+#include <complex.h>
+
 //Number of frames recorded per second (typically 44.1kHz for CD).
 #define FRAME_RATE 8192
 //The number of values each frame can take tp describe the waveform.

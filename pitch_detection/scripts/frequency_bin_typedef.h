@@ -1,4 +1,7 @@
+#ifndef FREQUENCY_BIN_TYPEDEF_H
+
 #define FREQUENCY_BIN_SIZE sizeof(double) * 3
+
 typedef double frequency_bin[3];
 
 void print_frequency_bins(frequency_bin bin[], size_t peaks_arr_size){
@@ -16,3 +19,5 @@ void print_malloc_error(const char* function_name, size_t malloc_size){
             malloc_size
         );
 }
+
+#endif

@@ -1,5 +1,7 @@
-#include <math.h>
+#ifndef COMPLEX_H
+#define COMPLEX_H
 
+#include <math.h>
 #define EULER M_E
 
 /*
@@ -91,3 +93,5 @@ void cexp(const complex z, complex target){
     target[0] = z2[0];
     target[1] = z2[1];
 }
+
+#endif

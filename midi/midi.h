@@ -2,6 +2,8 @@
 #define SAMPLE_RATE 44100 // standard 44.1kHz sample rate
 #define SAMPLE_FRAMES (size_t) round(SAMPLE_RATE * LATENCY)
 
+#define MAX_VOICES 10
+
 typedef double note[3]; // first element is note number, second is frequency, third is volume
 
 double note_frequency(int n){
