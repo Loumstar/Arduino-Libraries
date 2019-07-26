@@ -1,20 +1,19 @@
 #include <stdbool.h>
 #include <string.h>
 #include "scripts/fourier_transform.h"
-#include "scripts/signal_methods.h"
 #include "scripts/peaks_correlation.h"
 
-/*
-The minimum ratio of the amplitude of a frequency, relative
-to that of similar frequencies, which would add it to the list of peaks.
-*/
+//Number of frames recorded per second (typically 44.1kHz for CD).
+#define FRAME_RATE 2560
+//The number of values each frame can take tp describe the waveform.
+#define BIT_DEPTH 1024
+//The number of frames in a clip. Must be a power of two.
+#define CLIP_FRAMES 512
+//The minimum ratio of the amplitude of a frequency, relative
+//to that of similar frequencies, which would add it to the list of peaks.
 #define THRESHOLD 2.5
-
 //The size of the array used to calculate the average amplitude of frequencies
 #define SAMPLE_ARR_SIZE 75
-//The size of the array containing frequencies identified as peaks.
-#define PEAKS_ARR_SIZE 20
-
 //The smallest value for a floating point that is considered to be greater than zero.
 #define FLOAT_EPSILON 0.01
 
@@ -38,33 +37,18 @@ double decibels(double v){
 double get_noise_level(int f, const complex clip[]){
     /*
     Method to determine the amplitude of frequencies surrounding the amplitude at f, or 'noise'.
-    
-    If the amplitude at f is significantly larger than the noise, the ratio of the two
-    will be larger than the threshold.
-
-    If the amplitude passes the threshold test, it is added to the array of peaks.
 
     The noise is calculated by summing the amplitudes that are within the set of frequencies 
     surrounding f, and is divided by the number of amplitudes in the set.
-
-    The size of this set is determined by SAMPLE_ARR_SIZE.
-
-    PARAMETERS
-    ----------
-    f:
-    The index value of the frequency that is being tested.
-
-    clip:
-    The array containing the amplitudes of all frequencies.
     */
     double sum = 0;
     size_t lb, ub;
-    //If the sample indices fall outside the upper bound of clip
+    //if the sample indices fall outside the upper bound of clip
     if(f + floor(SAMPLE_ARR_SIZE / 2) > CLIP_FRAMES){
         //use the last set of values that make a full set.
         lb = CLIP_FRAMES - SAMPLE_ARR_SIZE;
         ub = CLIP_FRAMES;
-    //If the sample indices fall outside the upper bound of clip 
+    //if the sample indices fall outside the upper bound of clip 
     } else if(f - floor(SAMPLE_ARR_SIZE / 2) < 0){
         //use the first set of values that make a full set.
         lb = 0;
@@ -90,8 +74,16 @@ void _convert_to_frequency_domain(complex clip[]){
 }
 
 frequency_bin* get_peaks(const complex clip[]){
+    /*
+    Method to determine the peak frequencies of a frequency spectrum.
+
+    If the amplitude of that frequency is a local maxima and the ratio between its
+    amplitude and the average amplitude of surrounding frequencies (see get_noise_level())
+    is greater than the THRESHOLD then it is added to the array.
+    */
     frequency_bin* peaks = malloc(FREQUENCY_BIN_SIZE * PEAKS_ARR_SIZE);
-    if(peaks == NULL) return NULL;
+    if(!peaks) return NULL;
+    
     double noise, amplitude;
     size_t i = 0;
     
@@ -99,8 +91,8 @@ frequency_bin* get_peaks(const complex clip[]){
         noise = get_noise_level(f, clip);
         amplitude = cabs(clip[f]);
         if(
-            i < PEAKS_ARR_SIZE
-            && _is_non_zero(amplitude)
+            i < PEAKS_ARR_SIZE //avoids overfilling array and segfaults
+            && _is_non_zero(amplitude) //avoids divide-by-zero errors
             && _is_maxima(cabs(clip[f-1]), amplitude, cabs(clip[f+1]))
             && _is_above_threshold(amplitude, noise)
         ){
@@ -109,7 +101,8 @@ frequency_bin* get_peaks(const complex clip[]){
             i++;
         }
     }
-    while(i < PEAKS_ARR_SIZE){ //initialises unused positions in peaks[] to a a standard form.
+    while(i < PEAKS_ARR_SIZE){ 
+        //initialises unused positions in peaks[] to a a standard form.
         memcpy(peaks[i], NULL_FREQ_BIN, FREQUENCY_BIN_SIZE);
         i++;
     }
@@ -117,10 +110,11 @@ frequency_bin* get_peaks(const complex clip[]){
 }
 
 frequency_bin* get_pitches(complex clip[]){
+    //method to 
     _convert_to_frequency_domain(clip);
     frequency_bin* peaks = get_peaks(clip);
-    if(peaks != NULL){
-        note_probabilities(peaks, PEAKS_ARR_SIZE, FLOAT_EPSILON);
+    if(peaks){
+        note_probabilities(peaks);
     }
     return peaks;
 }
@@ -136,8 +130,10 @@ void get_pitch_bin(frequency_bin notes[], frequency_bin pitch_bin){
     }
 }
 
-double get_pitch(frequency_bin notes[]){
+double get_pitch(complex clip[]){
+    frequency_bin* notes = get_pitches(clip);
     frequency_bin bin;
     get_pitch_bin(notes, bin);
+    free(notes);
     return bin[0];
 }

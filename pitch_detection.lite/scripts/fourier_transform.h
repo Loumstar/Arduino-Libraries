@@ -11,15 +11,24 @@ void print_complex_array(const complex complex_arr[], size_t s){
 }
 
 complex* copy_signal(complex waveform[], size_t n){
+    //method to duplicate a signal with complex typedef
     complex* copy = malloc(sizeof(complex) * n);
     for(size_t a = 0; a < n; a++){
-        copy[a][0] = creal(waveform[a]);
-        copy[a][1] = cimag(waveform[a]);
+        memcpy(copy[a], waveform[a], COMPLEX_SIZE);
     }
     return copy;
 }
  
 void _fft(complex waveform[], complex copy[], size_t n, size_t step){
+    /*
+    Method to convert a signal from time domain to frequency domain, 
+    using Fast Fourier Transform.
+
+    This method is based on the Cooley-Turkey method.
+
+    The code uses both (int complex) and (double complex) as int uses half the memory
+    of a double, however the precision of a double is required for the exponentiation.
+    */
     if(step < n){
         _fft(copy, waveform, n, step * 2);
         _fft(copy + step, waveform + step, n, step * 2);

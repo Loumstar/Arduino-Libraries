@@ -2,22 +2,30 @@
 
 #define DISTRIBUTION_SPACING 50.0
 #define HARMONICS_ARR_SIZE (size_t) 20
+#define PEAKS_ARR_SIZE 20
 
 #define EULER M_E
 
-double* get_harmonics(double peak){
+double* get_harmonics(double f){
+    //method to return an array of frequencies that are harmonics of a frequency.
     double* harmonics = malloc(sizeof(double) * HARMONICS_ARR_SIZE);
-    if(harmonics == NULL) return NULL;
+    if(!harmonics) return NULL;
     
     for(size_t h = 0; h < HARMONICS_ARR_SIZE; h++){
-        harmonics[h] = peak * (h + 1);
+        harmonics[h] = f * (h + 1);
     }
     return harmonics;
 }
 
-double get_correlation(double f, frequency_bin peaks[], size_t peaks_arr_size){
+double get_correlation(double f, frequency_bin peaks[]){
+    /*
+    Method that returns a value that indicates how well a frequency f fits the set of peaks found.
+    
+    This is done by using a variation on the normal distribution, where each peak has a bell curve
+    and the correlation value returned is given by the probability at that point.
+    */
     double c = 0;
-    for(size_t s = 0; s < peaks_arr_size; s++){
+    for(size_t s = 0; s < PEAKS_ARR_SIZE; s++){
         if(!isnan(peaks[s][0])){
             c += pow(EULER, -1 * pow((2 * (f - peaks[s][0]) / DISTRIBUTION_SPACING), 2));
         }
@@ -25,22 +33,24 @@ double get_correlation(double f, frequency_bin peaks[], size_t peaks_arr_size){
     return c;
 }
 
-double test_harmonics(frequency_bin peaks[], double harmonics[], size_t peaks_arr_size){
+double test_harmonics(frequency_bin peaks[], double harmonics[]){
+    //method to run get_correlation() for a set of harmonics.
     double correlation = 0;
     for(size_t h = 0; h < HARMONICS_ARR_SIZE; h++){
-        correlation += get_correlation(harmonics[h], peaks, peaks_arr_size);
+        correlation += get_correlation(harmonics[h], peaks);
     }
-    return (double) correlation / HARMONICS_ARR_SIZE;
+    return correlation / HARMONICS_ARR_SIZE;
 }
 
-void note_probabilities(frequency_bin peaks[], size_t peaks_arr_size, double float_epsilon){    
+void note_probabilities(frequency_bin peaks[]){
+    //method to run test_harmonics() for the harmonics of the frequency of each peak.
     double probability;
-    for(int p = 0; p < peaks_arr_size; p++){
+    for(int p = 0; p < PEAKS_ARR_SIZE; p++){
         if(!isnan(peaks[p][0])){
             double* harmonics = get_harmonics(peaks[p][0]);
             
-            if(harmonics == NULL) break;
-            probability = test_harmonics(peaks, harmonics, peaks_arr_size);
+            if(!harmonics) break;
+            probability = test_harmonics(peaks, harmonics);
             peaks[p][2] = probability;
             
             free(harmonics);
