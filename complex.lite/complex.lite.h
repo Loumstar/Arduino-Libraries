@@ -6,10 +6,12 @@
 
 /*
 Small script to handle complex arithmetic to be used on the arduino.
-Built upon Loumstar/Arduino-Libraries/complex/complex.lite.h
+Built upon Loumstar/Arduino-Libraries/complex/complex.h
 */
 
 typedef int complex[2];
+
+#define COMPLEX_SIZE sizeof(complex)
 
 int creal(const complex z){
     return z[0];
