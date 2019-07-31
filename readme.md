@@ -24,6 +24,8 @@ Check they exist by opening the Arduino IDE and going to: <br>
 
 If they exist, they are ready to be added to your sketches.
 
+For information on installing libraries, see: http://www.arduino.cc/en/Guide/Libraries
+
 ## Usage
 
 Like with any header file, add the module to your sketch by using the `#include` qualifier:
@@ -32,9 +34,7 @@ Like with any header file, add the module to your sketch by using the `#include`
 #include <complex.lite.h>
 ```
 
-If the module does not have any documentation, read the code used in the test scripts. 
-
-For information on installing libraries, see: http://www.arduino.cc/en/Guide/Libraries
+If the module does not have any documentation, read the code used in the test scripts.
 
 ## Contact
 
