@@ -1,4 +1,5 @@
 #include <time.h>
+
 #include "../pitch_detection.h"
 #include "../../unittest/unittest.h"
 
@@ -59,7 +60,7 @@ int main(void){
     complex* signl = create_signal(a, 0, a_size);
     end = clock();
 
-    printf("Signal created in %fs.\n", (double) (end - start) / CLOCKS_PER_SEC);
+    printf("Signal created in %.3f ms.\n", (double) (end - start) / CLOCKS_PER_SEC * 1000);
     if(!signl) return 1;
 
     //Measure time taken to determine all possible pitches
@@ -67,7 +68,7 @@ int main(void){
     frequency_bin* notes = get_pitches(signl);
     end = clock();
 
-    printf("Signal analysed in %fs.\n\n", (double) (end - start) / CLOCKS_PER_SEC);
+    printf("Signal analysed in %.3f ms.\n\n", (double) (end - start) / CLOCKS_PER_SEC * 1000);
     
     //Find the most probable pitch bin
     frequency_bin pitch_bin;
@@ -104,7 +105,7 @@ int main(void){
     }
     
     clock_t main_end = clock();
-    printf("Test completed in %fs.\n", (double) (main_end - main_start) / CLOCKS_PER_SEC);
+    printf("Test completed in %.3f ms.\n", (double) (main_end - main_start) / CLOCKS_PER_SEC * 1000);
     
     return 0;
 }

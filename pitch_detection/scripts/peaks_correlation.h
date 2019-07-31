@@ -1,7 +1,7 @@
 #include "frequency_bin_typedef.h"
 
 #define DISTRIBUTION_SPACING 50.0
-#define HARMONICS_ARR_SIZE (size_t) 20
+#define HARMONICS_ARR_SIZE 20
 #define PEAKS_ARR_SIZE 20
 
 #define EULER M_E
@@ -50,10 +50,11 @@ void note_probabilities(frequency_bin peaks[]){
             double* harmonics = get_harmonics(peaks[p][0]);
             
             if(!harmonics) break;
+
             probability = test_harmonics(peaks, harmonics);
-            peaks[p][2] = probability;
-            
             free(harmonics);
+
+            peaks[p][2] = probability;
         }
     }
 }
