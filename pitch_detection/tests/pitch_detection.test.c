@@ -79,6 +79,7 @@ int main(void){
     if(!notes) return 1;
 
     print_frequency_bins(notes, PEAKS_ARR_SIZE);
+    printf("\n");
     print_frequency_bins(&pitch_bin, 1);
     free(notes);
 
@@ -95,7 +96,7 @@ int main(void){
         return 1;
     }
 
-    printf("Assert that volume detected is 20log(128/1024) dB = -18.062...\n");
+    printf("Assert that volume detected is -18.062 ± 1 dB\n");
     printf("    %.3f\n", volume);
     if(assert_double_similar(volume, 20 * log10f(128.0 / 1024.0), 1)){
         printf("    PASS\n\n");

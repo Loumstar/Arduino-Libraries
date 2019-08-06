@@ -3,8 +3,8 @@ The maximum frequency measured is 1280 Hz.
 The frequency resolution is 5.0 Hz.
 The length of the clip is 0.200s.
 
-Signal created in 0.035 ms.
-Signal analysed in 1.169 ms.
+Signal created in 0.039 ms.
+Signal analysed in 1.566 ms.
 
 (125 Hz, -18.13 dB, 0.3381)
 (355 Hz, -86.41 dB, 0.1454)
@@ -26,14 +26,15 @@ Signal analysed in 1.169 ms.
 (845 Hz, -88.37 dB, 0.1045)
 (955 Hz, -90.31 dB, 0.0926)
 (965 Hz, -85.70 dB, 0.0926)
+
 (125 Hz, -18.13 dB, 0.3381)
 
 Assert that pitch detected is 125 ± 2 Hz
     125
     PASS
 
-Assert that volume detected is 20log(128/1024) dB = -18.062...
+Assert that volume detected is -18.062 ± 1 dB
     -18.130
     PASS
 
-Test completed in 1.317 ms.
+Test completed in 1.876 ms.
