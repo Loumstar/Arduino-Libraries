@@ -3,8 +3,8 @@ The maximum frequency measured is 1280 Hz.
 The frequency resolution is 5.0 Hz.
 The length of the clip is 0.200s.
 
-Signal created in 0.126 ms.
-Signal analysed in 1.002 ms.
+Signal created in 0.122 ms.
+Signal analysed in 1.459 ms.
 
 (125 Hz, -18.21 dB, 0.1426)
 (250 Hz, -28.24 dB, 0.0926)
@@ -20,4 +20,4 @@ Assert that volume detected is -18.062 ± 1 dB
     -18.214
     PASS
 
-Test completed in 1.546 ms.
+Test completed in 1.739 ms.

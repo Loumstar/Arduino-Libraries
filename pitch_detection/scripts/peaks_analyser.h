@@ -13,12 +13,16 @@
 //The size of the array used to calculate the average amplitude of frequencies
 #define SAMPLE_ARR_SIZE 75
 
-bool is_maxima(double y0, double y1, double y2){
-    return (y1 - y0 > FLT_EPSILON) && (y1 - y2 > FLT_EPSILON);
+bool amplitude_is_maxima(double a0, double a1, double a2){
+    return (a1 - a0 > FLT_EPSILON) && (a1 - a2 > FLT_EPSILON);
 }
 
-bool is_above_threshold(double a, double noise){
+bool amplitude_is_above_threshold(double a, double noise){
     return a / noise > THRESHOLD || noise < FLT_EPSILON;
+}
+
+double get_amplitude(const complex z){
+    return cabs(z) * 2 / CLIP_FRAMES;
 }
 
 double decibels(double v){
@@ -52,7 +56,7 @@ double get_noise_level(int f, const complex clip[]){
     }
     for(size_t i = lb; i < ub; i++){
         //sum the values
-        sum += cabs(clip[i]);
+        sum += get_amplitude(clip[i]);
     }
     //divide by the size of the sample.
     return sum / SAMPLE_ARR_SIZE;
@@ -72,7 +76,7 @@ frequency_bin* get_peaks(const complex clip[]){
     double noise, prev_amplitude;
 
     double amplitude = 0;
-    double next_amplitude = cabs(clip[1]);
+    double next_amplitude = get_amplitude(clip[1]);
 
     size_t i = 0;
     
@@ -81,17 +85,16 @@ frequency_bin* get_peaks(const complex clip[]){
         
         prev_amplitude = amplitude;
         amplitude = next_amplitude;
-        next_amplitude = cabs(clip[f+1]);
-
+        next_amplitude = get_amplitude(clip[f+1]);
 
         if(
-            i < PEAKS_ARR_SIZE && //avoids overfilling array and segfaults
-            2 * amplitude > CLIP_FRAMES && //bin cannot exist if amplitude is smaller than 1 in the signal
-            is_maxima(prev_amplitude, amplitude, next_amplitude) &&
-            is_above_threshold(amplitude, noise)
+            i < PEAKS_ARR_SIZE //avoids overfilling array and segfaults
+            && amplitude > 1 //must be as signal was int type, so smallest amplitude value is 1
+            && amplitude_is_maxima(prev_amplitude, amplitude, next_amplitude)
+            && amplitude_is_above_threshold(amplitude, noise)
         ){
             peaks[i][0] = f * FRAME_RATE / CLIP_FRAMES;
-            peaks[i][1] = decibels(amplitude * 2 / CLIP_FRAMES);
+            peaks[i][1] = decibels(amplitude);
             i++;
         }
     }
