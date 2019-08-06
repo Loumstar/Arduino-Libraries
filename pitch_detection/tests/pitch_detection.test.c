@@ -16,7 +16,7 @@ void print_frequency_bins(const frequency_bin bin[], size_t n){
     }
 }
 
-complex* create_signal(const double a[1][2], double offset, size_t length){
+complex* create_signal(const double a[3][2], double offset, size_t length){
     /*
     Method to return an array of values that make up an oscillation.
     
@@ -52,8 +52,13 @@ int main(void){
     printf("The length of the clip is %.3fs.\n\n", (double) CLIP_FRAMES / FRAME_RATE);
 
     //example basic waveform.  
-    size_t a_size = 1;   
-    double a[1][2] = {{125, 128}};
+    size_t a_size = 3;   
+    
+    double a[3][2] = {
+        {125, 128},
+        {250, 40},
+        {510, 60}
+    };
 
     //measure time taken to create the 125 Hz signal.
     start = clock();

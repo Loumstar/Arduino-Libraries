@@ -1,4 +1,5 @@
 #include <stdbool.h>
+#include <float.h>
 
 //Number of frames recorded per second (typically 44.1kHz for CD).
 #define FRAME_RATE 2560
@@ -11,19 +12,13 @@
 #define THRESHOLD 2.5
 //The size of the array used to calculate the average amplitude of frequencies
 #define SAMPLE_ARR_SIZE 75
-//The smallest value for a floating point that is considered to be greater than zero.
-#define FLOAT_EPSILON 0.01
 
-bool _is_non_zero(double a){
-    return a > FLOAT_EPSILON;
+bool is_maxima(double y0, double y1, double y2){
+    return (y1 - y0 > FLT_EPSILON) && (y1 - y2 > FLT_EPSILON);
 }
 
-bool _is_maxima(double y0, double y1, double y2){
-    return (y1 - y0 > FLOAT_EPSILON) && (y1 - y2 > FLOAT_EPSILON);
-}
-
-bool _is_above_threshold(double a, double noise){
-    return a / noise > THRESHOLD || noise < FLOAT_EPSILON;
+bool is_above_threshold(double a, double noise){
+    return a / noise > THRESHOLD || noise < FLT_EPSILON;
 }
 
 double decibels(double v){
@@ -74,17 +69,26 @@ frequency_bin* get_peaks(const complex clip[]){
     frequency_bin* peaks = malloc(FREQUENCY_BIN_SIZE * PEAKS_ARR_SIZE);
     if(!peaks) return NULL;
     
-    double noise, amplitude;
+    double noise, prev_amplitude;
+
+    double amplitude = 0;
+    double next_amplitude = cabs(clip[1]);
+
     size_t i = 0;
     
-    for(size_t f = 0; f < floor(CLIP_FRAMES / 2); f++){
+    for(size_t f = 1; f < floor(CLIP_FRAMES / 2); f++){
         noise = get_noise_level(f, clip);
-        amplitude = cabs(clip[f]);
+        
+        prev_amplitude = amplitude;
+        amplitude = next_amplitude;
+        next_amplitude = cabs(clip[f+1]);
+
+
         if(
-            i < PEAKS_ARR_SIZE //avoids overfilling array and segfaults
-            && _is_non_zero(amplitude) //avoids divide-by-zero errors
-            && _is_maxima(cabs(clip[f-1]), amplitude, cabs(clip[f+1]))
-            && _is_above_threshold(amplitude, noise)
+            i < PEAKS_ARR_SIZE && //avoids overfilling array and segfaults
+            2 * amplitude > CLIP_FRAMES && //bin cannot exist if amplitude is smaller than 1 in the signal
+            is_maxima(prev_amplitude, amplitude, next_amplitude) &&
+            is_above_threshold(amplitude, noise)
         ){
             peaks[i][0] = f * FRAME_RATE / CLIP_FRAMES;
             peaks[i][1] = decibels(amplitude * 2 / CLIP_FRAMES);

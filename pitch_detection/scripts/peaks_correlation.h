@@ -42,8 +42,14 @@ double test_harmonics(frequency_bin peaks[], double harmonics[]){
     return correlation / HARMONICS_ARR_SIZE;
 }
 
-void note_probabilities(frequency_bin peaks[]){
-    //method to run test_harmonics() for the harmonics of the frequency of each peak.
+void get_note_probabilities(frequency_bin peaks[]){
+    /*
+    Method that adds the probability of a frequency bin being the 'note' of the audio
+    to the last column in the frequency bin array.
+
+    This is done by determining the harmonics of the frequency bin and comparing how well
+    they fit all the peaks in the spectrum.
+    */
     double probability;
     for(int p = 0; p < PEAKS_ARR_SIZE; p++){
         if(!isnan(peaks[p][0])){

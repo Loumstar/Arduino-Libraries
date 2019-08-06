@@ -61,3 +61,10 @@ void fft(complex waveform[], size_t length){
     _fft(waveform, copy, length, 1);
     free(copy);
 }
+
+void convert_to_frequency_domain(complex clip[], int clip_frames){
+    //runs fourier transform
+    fft(clip, clip_frames);
+    //removes offset represented by the complex value at 0 Hz
+    cset_to_zero(clip[0]);
+}

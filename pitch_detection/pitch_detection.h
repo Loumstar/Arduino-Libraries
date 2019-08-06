@@ -1,3 +1,6 @@
+#ifndef PITCH_DETECTION_H
+#define PITCH_DETECTION_H
+
 #include <string.h>
 #include <math.h>
 
@@ -5,19 +8,12 @@
 #include "scripts/peaks_correlation.h"
 #include "scripts/peaks_analyser.h"
 
-void _convert_to_frequency_domain(complex clip[]){
-    //runs fourier transform
-    fft(clip, CLIP_FRAMES);
-    //removes offset represented by the complex value at 0 Hz
-    cset_to_zero(clip[0]);
-}
-
 frequency_bin* get_pitches(complex clip[]){
     //method that returns an array of pitch bins that are possible notes of the audio
-    _convert_to_frequency_domain(clip);
+    convert_to_frequency_domain(clip, CLIP_FRAMES);
     frequency_bin* peaks = get_peaks(clip);
     
-    if(peaks) note_probabilities(peaks);
+    if(peaks) get_note_probabilities(peaks);
 
     return peaks;
 }
@@ -45,3 +41,5 @@ double get_pitch(complex clip[]){
     free(notes);
     return bin[0];
 }
+
+#endif
