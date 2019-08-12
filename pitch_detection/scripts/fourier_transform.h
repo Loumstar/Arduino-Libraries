@@ -11,16 +11,16 @@ void print_complex_array(const complex complex_arr[], size_t s){
     }
 }
 
-complex* copy_signal(complex waveform[], size_t n){
+complex* copy_signal(complex clip[], size_t n){
     //method to duplicate a signal with complex typedef
     complex* copy = malloc(sizeof(complex) * n);
     for(size_t a = 0; a < n; a++){
-        memcpy(copy[a], waveform[a], COMPLEX_SIZE);
+        memcpy(copy[a], clip[a], COMPLEX_SIZE);
     }
     return copy;
 }
  
-void _fft(complex waveform[], complex copy[], size_t n, size_t step){
+void fft(complex clip[], complex copy[], size_t n, size_t step){
     /*
     Method to convert a signal from time domain to frequency domain, 
     using Fast Fourier Transform.
@@ -31,8 +31,8 @@ void _fft(complex waveform[], complex copy[], size_t n, size_t step){
     of a double, however the precision of a double is required for the exponentiation.
     */
     if(step < n){
-        _fft(copy, waveform, n, step * 2);
-        _fft(copy + step, waveform + step, n, step * 2);
+        fft(copy, clip, n, step * 2);
+        fft(copy + step, clip + step, n, step * 2);
         
         double_complex dc1, dc2;
         complex t;
@@ -50,21 +50,17 @@ void _fft(complex waveform[], complex copy[], size_t n, size_t step){
             t[0] = (int) dc2[0];
             t[1] = (int) dc2[1];
 
-            cadd(copy[a], t, waveform[a / 2]);
-            csub(copy[a], t, waveform[(a + n) / 2]);
+            cadd(copy[a], t, clip[a / 2]);
+            csub(copy[a], t, clip[(a + n) / 2]);
         }
     }
 }
 
-void fft(complex waveform[], size_t length){
-    complex* copy = copy_signal(waveform, length);
-    _fft(waveform, copy, length, 1);
-    free(copy);
-}
-
 void convert_to_frequency_domain(complex clip[], int clip_frames){
+    complex* copy = copy_signal(clip, clip_frames);
     //runs fourier transform
-    fft(clip, clip_frames);
+    fft(clip, copy, clip_frames, 1);
+    free(copy);
     //removes offset represented by the complex value at 0 Hz
     cset_to_zero(clip[0]);
 }
