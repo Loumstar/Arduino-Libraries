@@ -33,11 +33,13 @@ int get_chord_amplitude(int sample[], note* notes, double voice_f, size_t frame,
     sample is looped repeatedly until the original sample is looped back once at the
     normal speed.
     */
+
     int amplitude = 0;
     size_t j;
+    
     for(size_t i = 0; i < MAX_VOICES; i++){
         if(notes[i][0]){
-            j = (frame * notes[i][1] / voice_f) % (sample_frames - 1);
+            j = ((size_t) (frame * notes[i][1] / voice_f)) % (sample_frames - 1);
             amplitude += sample[j] * notes[i][2]; // Frame (0-256) * volume (0-1)
         }
     }
