@@ -60,7 +60,7 @@ int main(void){
         {510, 60}
     };
 
-    //measure time taken to create the 125 Hz signal.
+    //measure time taken to create the test signal.
     start = clock();
     complex* signl = create_signal(a, 0, a_size);
     complex* copy = malloc(sizeof(complex) * CLIP_FRAMES);
@@ -72,11 +72,10 @@ int main(void){
     double* harmonics = malloc(sizeof(double) * HARMONICS_ARR_SIZE);
 
     if(!signl || !copy || !harmonics || !notes){
-        printf("Malloc err\n");
-        free(signl);
-        free(copy);
-        free(harmonics);
-        free(notes);
+        if(signl) free(signl);
+        if(copy) free(copy);
+        if(harmonics) free(harmonics);
+        if(notes) free(notes);
         return 1;
     }
 
@@ -91,6 +90,7 @@ int main(void){
     frequency_bin pitch_bin;
     get_pitch_bin(notes, pitch_bin);
 
+    //Print the notes determined
     print_frequency_bins(notes, PEAKS_ARR_SIZE);
     printf("\n");
     print_frequency_bins(&pitch_bin, 1);

@@ -1,12 +1,18 @@
-#include <SoftwareSerial.h>
+#ifndef MIDI_H
+#define MIDI_H
 
+#include <SoftwareSerial.h>
 #define LATENCY pow(10, -3) // 1 milisecond samples
 #define SAMPLE_RATE 44100 // standard 44.1kHz sample rate
 #define SAMPLE_FRAMES (size_t) round(SAMPLE_RATE * LATENCY)
 
+#ifndef MAX_VOICES
 #define MAX_VOICES 10
+#endif
 
+#ifndef NOTE_TYPEDEF
 typedef double note[3]; // first element is note number, second is frequency, third is volume
+#endif
 
 double note_frequency(int n){
     return pow(2, (n - 69) / 12) * 440.0;
@@ -53,3 +59,5 @@ int* read_midi(int* msg, Stream &midiDevice){
         i++;
     }
 }
+
+#endif
