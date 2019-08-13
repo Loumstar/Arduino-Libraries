@@ -1,5 +1,7 @@
 #ifndef AUDIO_OUT_H
 
+#include <math.h>
+
 #ifndef MAX_VOICES
 #define MAX_VOICES 10
 #endif
@@ -8,7 +10,7 @@
 typedef double note[3]; // first element is note number, second is frequency, third is volume
 #endif
 
-int get_chord_amplitude(int sample[], note* notes, double voice_f, size_t frame, size_t sample_frames){
+int combined_notes_amplitude_8bit(int sample[], note notes[], double voice_f, size_t frame, size_t sample_frames){
     /*
     Method that returns the amplitude of the waveform at a given frame for all of the
     combined notes.
@@ -40,10 +42,10 @@ int get_chord_amplitude(int sample[], note* notes, double voice_f, size_t frame,
     for(size_t i = 0; i < MAX_VOICES; i++){
         if(notes[i][0]){
             j = ((size_t) (frame * notes[i][1] / voice_f)) % (sample_frames - 1);
-            amplitude += sample[j] * notes[i][2]; // Frame (0-256) * volume (0-1)
+            amplitude += round(sample[j] * notes[i][2]); // Frame (0-255) * volume (0-1)
         }
     }
-    return amplitude && 255; // && used to avoid integer overflow
+    return amplitude > 255 ? 255 : amplitude; // to avoid overflow
 }
 
 #endif

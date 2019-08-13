@@ -42,7 +42,7 @@ void note_on(int n, int vol, note notes[]){
     }
 }
 
-void handle_midi(int msg[3], note notes[]){
+void handle_midi_msg(int msg[3], note notes[]){
     if(msg[0] < 0xA0){ // only handle note on/off messages
         if(msg[0] < 0x90){
             note_off(msg[1], notes);
@@ -75,7 +75,7 @@ void report_midi_change(int midi_msg[3], char arduino_msg[]){
     }
 }
 
-int* read_midi(int msg[3], Stream &midiDevice){
+int* get_midi_msg(int msg[3], Stream &midiDevice){
     size_t msg_length = midiDevice.available();
     size_t i = 0;
 
