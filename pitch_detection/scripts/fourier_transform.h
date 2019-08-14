@@ -57,6 +57,7 @@ void fft(complex sample[], complex copy[], size_t n, size_t step){
 }
 
 void convert_to_frequency_domain(complex sample[], int clip_frames){
+    //copy the signal
     complex* copy = copy_signal(sample, clip_frames);
     //runs fourier transform
     fft(sample, copy, clip_frames, 1);

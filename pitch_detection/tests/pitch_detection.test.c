@@ -7,15 +7,6 @@ bool is_power_of_two(int x){
     return (x & (x - 1)) == 0;
 }
 
-void print_frequency_bins(const frequency_bin bin[], size_t n){
-    //method to print info of each frequency bin to the console
-    for(size_t j = 0; j < n; j++){    
-        if(!isnan(bin[j][0])){
-            printf("(%.f Hz, %.2f dB, %.4f)\n", bin[j][0], bin[j][1], bin[j][2]);
-        }
-    }
-}
-
 complex* create_signal(const double a[3][2], double offset, size_t length){
     /*
     Method to return an array of values that make up an oscillation.

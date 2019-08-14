@@ -28,7 +28,7 @@ void get_pitch_bin(frequency_bin notes[], frequency_bin pitch_bin){
             j = i;
         }
     }
-
+    
     memcpy(pitch_bin, notes[j], FREQUENCY_BIN_SIZE);
 }
 
@@ -36,8 +36,10 @@ double get_pitch(complex sample[]){
     //method that returns the most probable pitch of the audio.
     frequency_bin* notes = get_pitches(sample);
     frequency_bin bin;
+    
     get_pitch_bin(notes, bin);
     free(notes);
+
     return bin[0];
 }
 
