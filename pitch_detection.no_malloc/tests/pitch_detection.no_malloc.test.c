@@ -23,25 +23,25 @@ complex* create_signal(const double a[3][2], double offset, size_t length){
     The oscillation can be a combination of frequencies and volumes and are returned
     as a complex datatype with only real components, so fft can be applied to it.
     */
-    complex* signl = malloc(sizeof(complex) * CLIP_FRAMES);
-    for(size_t i = 0; i < CLIP_FRAMES; i++){
+    complex* sample_signal = malloc(sizeof(complex) * SAMPLE_FRAMES);
+    for(size_t i = 0; i < SAMPLE_FRAMES; i++){
         int sum = 0;
         for(size_t j = 0; j < length; j++){
             sum += a[j][1] * sin((double) 2 * PI * a[j][0] * i / FRAME_RATE);
         }
-        signl[i][0] = sum + offset;
-        signl[i][1] = 0;
+        sample_signal[i][0] = sum + offset;
+        sample_signal[i][1] = 0;
     }
-    return signl;
+    return sample_signal;
 }
 
 int main(void){
     clock_t main_start = clock();
     clock_t start, end;
 
-    double frequency_resolution = FRAME_RATE / CLIP_FRAMES;
+    double frequency_resolution = FRAME_RATE / SAMPLE_FRAMES;
     
-    if(!is_power_of_two(CLIP_FRAMES)){
+    if(!is_power_of_two(SAMPLE_FRAMES)){
         printf("The number of frames in the clip must be a power of two.\n");
         return 1;
     }
@@ -49,7 +49,7 @@ int main(void){
     //Output basic properties of the transform.
     printf("The maximum frequency measured is %i Hz.\n", (int) FRAME_RATE / 2);
     printf("The frequency resolution is %.1f Hz.\n", frequency_resolution);
-    printf("The length of the clip is %.3fs.\n\n", (double) CLIP_FRAMES / FRAME_RATE);
+    printf("The length of the clip is %.3fs.\n\n", (double) SAMPLE_FRAMES / FRAME_RATE);
 
     //example basic waveform.  
     size_t a_size = 3;   
@@ -62,17 +62,17 @@ int main(void){
 
     //measure time taken to create the test signal.
     start = clock();
-    complex* signl = create_signal(a, 0, a_size);
-    complex* copy = malloc(sizeof(complex) * CLIP_FRAMES);
+    complex* sample_signal = create_signal(a, 0, a_size);
+    complex* copy = malloc(sizeof(complex) * SAMPLE_FRAMES);
     end = clock();
 
     printf("Signal created in %.3f ms.\n", (double) (end - start) / CLOCKS_PER_SEC * 1000);
 
-    frequency_bin* notes = malloc(FREQUENCY_BIN_SIZE * PEAKS_ARR_SIZE);
+    frequency_bin* notes = malloc(FREQUENCY_BIN_SIZE * NOTES_ARR_SIZE);
     double* harmonics = malloc(sizeof(double) * HARMONICS_ARR_SIZE);
 
-    if(!signl || !copy || !harmonics || !notes){
-        if(signl) free(signl);
+    if(!sample_signal || !copy || !harmonics || !notes){
+        if(sample_signal) free(sample_signal);
         if(copy) free(copy);
         if(harmonics) free(harmonics);
         if(notes) free(notes);
@@ -81,7 +81,7 @@ int main(void){
 
     //Measure time taken to determine all possible pitches
     start = clock();
-    get_pitches(signl, copy, notes, harmonics);
+    get_pitches(sample_signal, copy, notes, harmonics);
     end = clock();
 
     printf("Signal analysed in %.3f ms.\n\n", (double) (end - start) / CLOCKS_PER_SEC * 1000);
@@ -91,11 +91,11 @@ int main(void){
     get_pitch_bin(notes, pitch_bin);
 
     //Print the notes determined
-    print_frequency_bins(notes, PEAKS_ARR_SIZE);
+    print_frequency_bins(notes, NOTES_ARR_SIZE);
     printf("\n");
     print_frequency_bins(&pitch_bin, 1);
     
-    free(signl);
+    free(sample_signal);
     free(copy);
     free(harmonics);
     free(notes);

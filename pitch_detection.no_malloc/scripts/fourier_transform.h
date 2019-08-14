@@ -11,14 +11,14 @@ void print_complex_array(const complex complex_arr[], size_t s){
     }
 }
 
-void copy_signal(const complex clip[], complex copy[], size_t n){
+void copy_signal(const complex sample[], complex copy[], size_t n){
     //method to duplicate a signal with complex typedef
     for(size_t a = 0; a < n; a++){
-        memcpy(copy[a], clip[a], COMPLEX_SIZE);
+        memcpy(copy[a], sample[a], COMPLEX_SIZE);
     }
 }
  
-void fft(complex clip[], complex copy[], size_t n, size_t step){
+void fft(complex sample[], complex copy[], size_t n, size_t step){
     /*
     Method to convert a signal from time domain to frequency domain, 
     using Fast Fourier Transform.
@@ -29,8 +29,8 @@ void fft(complex clip[], complex copy[], size_t n, size_t step){
     of a double, however the precision of a double is required for the exponentiation.
     */
     if(step < n){
-        fft(copy, clip, n, step * 2);
-        fft(copy + step, clip + step, n, step * 2);
+        fft(copy, sample, n, step * 2);
+        fft(copy + step, sample + step, n, step * 2);
         
         double_complex dc1, dc2;
         complex t;
@@ -48,17 +48,17 @@ void fft(complex clip[], complex copy[], size_t n, size_t step){
             t[0] = (int) dc2[0];
             t[1] = (int) dc2[1];
 
-            cadd(copy[a], t, clip[a / 2]);
-            csub(copy[a], t, clip[(a + n) / 2]);
+            cadd(copy[a], t, sample[a / 2]);
+            csub(copy[a], t, sample[(a + n) / 2]);
         }
     }
 }
 
-void convert_to_frequency_domain(complex clip[], complex copy[], int clip_frames){
+void convert_to_frequency_domain(complex sample[], complex copy[], int clip_frames){
     //copy the signal
-    copy_signal(clip, copy, clip_frames);
+    copy_signal(sample, copy, clip_frames);
     //runs fourier transform
-    fft(clip, copy, clip_frames, 1);
+    fft(sample, copy, clip_frames, 1);
     //removes offset represented by the complex value at 0 Hz
-    cset_to_zero(clip[0]);
+    cset_to_zero(sample[0]);
 }
