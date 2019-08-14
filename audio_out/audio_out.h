@@ -10,7 +10,7 @@
 typedef double note[3]; // first element is note number, second is frequency, third is volume
 #endif
 
-int combined_notes_amplitude_8bit(int sample[], note notes[], double voice_f, size_t frame, size_t sample_frames){
+uint8_t combined_notes_amplitude_8bit(uint8_t sample[], note notes[], double voice_f, size_t frame, size_t sample_frames){
     /*
     Method that returns the amplitude of the waveform at a given frame for all of the
     combined notes.
