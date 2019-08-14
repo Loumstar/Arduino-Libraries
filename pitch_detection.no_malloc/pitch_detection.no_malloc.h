@@ -2,7 +2,6 @@
 #define PITCH_DETECTION_H
 
 #include <string.h>
-#include <math.h>
 
 #include "scripts/fourier_transform.h"
 #include "scripts/peaks_correlation.h"

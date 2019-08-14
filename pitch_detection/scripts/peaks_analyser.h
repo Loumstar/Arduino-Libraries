@@ -1,6 +1,9 @@
 #include <stdbool.h>
 #include <float.h>
 #include <stdlib.h>
+#include <math.h>
+
+#include "../../complex.lite/complex.lite.h"
 
 //Number of frames recorded per second (typically 44.1kHz for CD).
 #define FRAME_RATE 2560
@@ -21,7 +24,7 @@ bool amplitude_is_maxima(double a0, double a1, double a2){
 }
 
 bool amplitude_is_above_threshold(double a, double average_amplitude){
-    return a / average_amplitude > THRESHOLD || average_amplitude < FLT_EPSILON;
+    return a / average_amplitude > THRESHOLD;
 }
 
 double get_amplitude(const complex z){

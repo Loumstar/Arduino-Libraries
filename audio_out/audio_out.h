@@ -1,4 +1,5 @@
 #ifndef AUDIO_OUT_H
+#define AUDIO_OUT_H
 
 #include <math.h>
 

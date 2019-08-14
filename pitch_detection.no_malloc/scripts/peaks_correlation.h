@@ -1,3 +1,5 @@
+#include <math.h>
+
 #include "frequency_bin_typedef.h"
 
 #define DISTRIBUTION_SPACING 50.0
