@@ -1,10 +1,10 @@
-./testMalloc 
+./testPitchNoMalloc
 The maximum frequency measured is 1280 Hz.
 The frequency resolution is 5.0 Hz.
 The length of the clip is 0.200s.
 
-Signal created in 0.088 ms.
-Signal analysed in 0.915 ms.
+Signal created in 0.097 ms.
+Signal analysed in 0.791 ms.
 
 (125 Hz, -18.21 dB, 0.1426)
 (250 Hz, -28.24 dB, 0.0926)
@@ -20,4 +20,4 @@ Assert that volume detected is -18.062 ± 1 dB
     -18.214
     PASS
 
-Test completed in 1.121 ms.
+Test completed in 0.990 ms.
