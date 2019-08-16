@@ -1,6 +1,9 @@
 #ifndef FREQUENCY_BIN_TYPEDEF_H
 #define FREQUENCY_BIN_TYPEDEF_H
 
+#include <math.h>
+#include <stdio.h>
+
 typedef double frequency_bin[3];
 #define FREQUENCY_BIN_SIZE sizeof(double) * 3
 

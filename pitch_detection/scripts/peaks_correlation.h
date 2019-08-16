@@ -2,17 +2,15 @@
 
 #include "frequency_bin_typedef.h"
 
-#define DISTRIBUTION_SPACING 50.0
-#define HARMONICS_ARR_SIZE 20
-
-#define EULER M_E
+#define PD_NORMAL_DIST_WIDTH 100.0
+#define PD_HARMONICS_ARR_SIZE 20
 
 double* get_harmonics(double f){
     //method to return an array of frequencies that are harmonics of a frequency.
-    double* harmonics = malloc(sizeof(double) * HARMONICS_ARR_SIZE);
+    double* harmonics = malloc(sizeof(double) * PD_HARMONICS_ARR_SIZE);
     if(!harmonics) return NULL;
     
-    for(size_t h = 0; h < HARMONICS_ARR_SIZE; h++){
+    for(size_t h = 0; h < PD_HARMONICS_ARR_SIZE; h++){
         harmonics[h] = f * (h + 1);
     }
     return harmonics;
@@ -28,7 +26,7 @@ double get_correlation(double f, frequency_bin notes[], size_t notes_array_size)
     double c = 0;
     for(size_t s = 0; s < notes_array_size; s++){
         if(!isnan(notes[s][0])){
-            c += pow(EULER, -1 * pow((2 * (f - notes[s][0]) / DISTRIBUTION_SPACING), 2));
+            c += pow(M_E, -1 * pow((4 * (f - notes[s][0]) / PD_NORMAL_DIST_WIDTH), 2));
         }
     }
     return c;
@@ -37,10 +35,10 @@ double get_correlation(double f, frequency_bin notes[], size_t notes_array_size)
 double test_harmonics(frequency_bin notes[], double harmonics[], size_t notes_array_size){
     //method to run get_correlation() for a set of harmonics.
     double correlation = 0;
-    for(size_t h = 0; h < HARMONICS_ARR_SIZE; h++){
+    for(size_t h = 0; h < PD_HARMONICS_ARR_SIZE; h++){
         correlation += get_correlation(harmonics[h], notes, notes_array_size);
     }
-    return correlation / HARMONICS_ARR_SIZE;
+    return correlation / PD_HARMONICS_ARR_SIZE;
 }
 
 void get_note_probabilities(frequency_bin notes[], size_t notes_array_size){

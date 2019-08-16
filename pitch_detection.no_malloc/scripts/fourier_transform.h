@@ -3,8 +3,6 @@
 
 #include "../../complex.lite/complex.lite.h"
 
-#define PI M_PI
-
 void print_complex_array(const complex complex_arr[], size_t s){
     for(size_t j = 0; j < s; j++){
         printf("%d + %di\n", creal(complex_arr[j]), cimag(complex_arr[j]));
@@ -37,7 +35,7 @@ void fft(complex sample[], complex copy[], size_t n, size_t step){
 
         for(size_t a = 0; a < n; a += step * 2){   
             dc1[0] = 0; 
-            dc1[1] = -PI * a / n;
+            dc1[1] = -M_PI * a / n;
             
             dc2[0] = (double) copy[a + step][0];
             dc2[1] = (double) copy[a + step][1];
@@ -54,11 +52,11 @@ void fft(complex sample[], complex copy[], size_t n, size_t step){
     }
 }
 
-void convert_to_frequency_domain(complex sample[], complex copy[], int clip_frames){
+void convert_to_frequency_domain(complex sample[], complex copy[], int sample_array_size){
     //copy the signal
-    copy_signal(sample, copy, clip_frames);
+    copy_signal(sample, copy, sample_array_size);
     //runs fourier transform
-    fft(sample, copy, clip_frames, 1);
+    fft(sample, copy, sample_array_size, 1);
     //removes offset represented by the complex value at 0 Hz
     cset_to_zero(sample[0]);
 }

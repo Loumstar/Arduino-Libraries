@@ -9,10 +9,10 @@
 
 void get_pitches(complex sample[], complex copy[], frequency_bin notes[], double harmonics[]){
     //method that returns an array of pitch bins that are possible notes of the audio
-    convert_to_frequency_domain(sample, copy, SAMPLE_FRAMES);
+    convert_to_frequency_domain(sample, copy, PD_SAMPLE_ARR_SIZE);
     get_notes(sample, notes);
 
-    get_note_probabilities(notes, harmonics, NOTES_ARR_SIZE);
+    get_note_probabilities(notes, harmonics, PD_NOTES_ARR_SIZE);
 }
 
 void get_pitch_bin(frequency_bin notes[], frequency_bin pitch_bin){
@@ -20,7 +20,7 @@ void get_pitch_bin(frequency_bin notes[], frequency_bin pitch_bin){
     double max_p = 0;
     size_t j;
 
-    for(size_t i = 0; i < NOTES_ARR_SIZE; i++){
+    for(size_t i = 0; i < PD_NOTES_ARR_SIZE; i++){
         if(!isnan(notes[i][2]) && notes[i][2] > max_p){
             max_p = notes[i][2];
             j = i;
