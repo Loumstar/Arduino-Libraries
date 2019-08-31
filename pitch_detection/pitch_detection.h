@@ -1,46 +1,31 @@
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #ifndef PITCH_DETECTION_H
-#define PITCH_DETECTION_H
+    #define PITCH_DETECTION_H
 
-#include <string.h>
+    //C Standard Library
+    #include <string.h>
 
-#include "scripts/fourier_transform.h"
-#include "scripts/peaks_correlation.h"
-#include "scripts/peaks_analyser.h"
+    //Arduino Contributed Libraries
+    #include "int_complex.h"
+    #include "double_complex.h"
 
-frequency_bin* get_pitches(complex sample[]){
-    //method that returns an array of pitch bins that are possible notes of the audio
-    convert_to_frequency_domain(sample, PD_SAMPLE_ARR_SIZE);
-    frequency_bin* notes = get_notes(sample);
-    
-    if(notes) get_note_probabilities(notes, PD_NOTES_ARR_SIZE);
+    //Supporting Libraries from scripts/
+    #include "fourier_transform.h"
+    #include "frequency_bin_typedef.h"
+    #include "peaks_correlation.h"
+    #include "peaks_analyser.h"
 
-    return notes;
+    void get_pitches(int_complex sample[], int_complex copy[], frequency_bin notes[], double harmonics[]);
+
+    void get_pitch_bin(frequency_bin notes[], frequency_bin pitch_bin);
+
+    double get_pitch(int_complex sample[], int_complex copy[], frequency_bin notes[], double harmonics[]);
+
+#endif
+
+#ifdef __cplusplus
 }
-
-void get_pitch_bin(frequency_bin notes[], frequency_bin pitch_bin){
-    //method that returns the pitch bin with the greatest probability
-    double max_p = 0;
-    size_t j;
-
-    for(size_t i = 0; i < PD_NOTES_ARR_SIZE; i++){
-        if(!isnan(notes[i][2]) && notes[i][2] > max_p){
-            max_p = notes[i][2];
-            j = i;
-        }
-    }
-    
-    memcpy(pitch_bin, notes[j], FREQUENCY_BIN_SIZE);
-}
-
-double get_pitch(complex sample[]){
-    //method that returns the most probable pitch of the audio.
-    frequency_bin* notes = get_pitches(sample);
-    frequency_bin bin;
-    
-    get_pitch_bin(notes, bin);
-    free(notes);
-
-    return bin[0];
-}
-
 #endif

@@ -1,9 +1,4 @@
-#include <math.h>
-
-#include "frequency_bin_typedef.h"
-
-#define PD_NORMAL_DIST_WIDTH 100.0
-#define PD_HARMONICS_ARR_SIZE 20
+#include "peaks_correlation.h"
 
 void get_harmonics(double f, double harmonics[]){
     //method to return an array of frequencies that are harmonics of a frequency.
