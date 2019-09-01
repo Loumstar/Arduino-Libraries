@@ -11,9 +11,9 @@ extern "C" {
     typedef double frequency_bin[3];
     #define FREQUENCY_BIN_SIZE sizeof(double) * 3
 
-    extern const frequency_bin NULL_FREQ_BIN;
+    const frequency_bin NULL_FREQ_BIN;
 
-    inline void print_frequency_bin(const frequency_bin bin[], char msg[], size_t index);
+    void print_frequency_bin(const frequency_bin bin[], char msg[], size_t index);
 
 #endif
 
