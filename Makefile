@@ -1,23 +1,26 @@
 CC = gcc
-CFLAGS = -v
-INCLUDES = -I./double_complex/ -I./int_complex/ -I./unittest/ \
--I./fourier_transform/ -I./frequency_bin_typedef/ \
--I./peaks_analyser/ -I./peaks_correlation/ -I./pitch_detection/
+CFLAGS = -Wall -pedantic
+INCLUDES = -I./int_complex/ \
+		   -I./double_complex/ \
+		   -I./unittest/ \
+		   -I./fourier_transform/ \
+		   -I./frequency_bin_typedef/ \
+		   -I./peaks_analyser/ \
+		   -I./peaks_correlation/ \
+		   -I./pitch_detection/
 
 BINARIES = testIntComplex testDoubleComplex testPitchDetection
 
 # EXECUTABLES
 
 testIntComplex: int_complex.test.o int_complex.o unittest.o
-	$(CC) $(CFLAGS) $(INCLUDES) -o testIntComplex int_complex.test.o unittest.o int_complex.o
+	$(CC) $(CFLAGS) -o testIntComplex int_complex.test.o unittest.o int_complex.o
 
 testDoubleComplex: double_complex.test.o double_complex.o unittest.o
-	$(CC) $(CFLAGS) $(INCLUDES) -o testDoubleComplex double_complex.test.o double_complex.o unittest.o
+	$(CC) $(CFLAGS) -o testDoubleComplex double_complex.test.o double_complex.o unittest.o
 
-testPitchDetection: pitch_detection.test.o pitch_detection.o peaks_correlation.o peaks_analyser.o \
-fourier_transform.o frequency_bin_typedef.o int_complex.o double_complex.o unittest.o
-	$(CC) $(CFLAGS) $(INCLUDES) -o testPitchDetection pitch_detection.test.o pitch_detection.o peaks_correlation.o \
-	peaks_analyser.o fourier_transform.o frequency_bin_typedef.o int_complex.o double_complex.o unittest.o
+testPitchDetection: pitch_detection.test.o pitch_detection.o peaks_correlation.o peaks_analyser.o fourier_transform.o frequency_bin_typedef.o int_complex.o double_complex.o unittest.o
+	$(CC) $(CFLAGS) -o testPitchDetection pitch_detection.test.o pitch_detection.o peaks_correlation.o peaks_analyser.o fourier_transform.o frequency_bin_typedef.o int_complex.o double_complex.o unittest.o
 
 
 # OBJECT FILES
@@ -63,9 +66,14 @@ pitch_detection.test.o: pitch_detection/tests/pitch_detection.test.c
 
 # MISC
 
-.PHONY: all, clean
+.PHONY: all, clean, test
 
 all: $(BINARIES)
 
 clean:
-	rm -v $(BINARIES) *.o
+	rm $(BINARIES) *.o
+
+test:
+	make all
+	./run_test_scripts.sh $(BINARIES)
+	make clean

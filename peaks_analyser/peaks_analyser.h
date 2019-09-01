@@ -8,6 +8,7 @@ extern "C" {
     #include <stdbool.h>
     #include <float.h>
     #include <stdlib.h>
+    #include <string.h>
     #include <math.h>
 
     #include "int_complex.h"

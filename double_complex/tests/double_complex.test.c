@@ -10,15 +10,15 @@ bool assert_complex_equal(const double_complex z, double real, double imag){
 }
 
 int main(void){
+    clock_t main_start = clock();
+    clock_t start, end;
+
     const double_complex z1 = {1, 2}; // 1 + 2i
     const double_complex z2 = {5, 1}; // 5 + i
 
     double_complex result = {1, -2}; //something non-zero
 
     double real, imag;
-
-    clock_t start, end;
-    double function_time;
 
 
 
@@ -216,6 +216,9 @@ int main(void){
         printf("        FAIL (took %.3fms to execute)\n\n", (double) (end - start) * 1000 / CLOCKS_PER_SEC);
         return 1;
     }
+
+    clock_t main_end = clock();
+    printf("Test completed in %.3f ms.\n", (double) (main_end - main_start) / CLOCKS_PER_SEC * 1000);
 
     return 0;
 }
