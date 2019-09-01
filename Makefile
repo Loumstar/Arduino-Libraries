@@ -1,5 +1,6 @@
 CC = gcc
 CFLAGS = -Wall -pedantic
+
 INCLUDES = -I./int_complex/ \
 		   -I./double_complex/ \
 		   -I./unittest/ \
@@ -11,7 +12,7 @@ INCLUDES = -I./int_complex/ \
 
 BINARIES = testIntComplex testDoubleComplex testPitchDetection
 
-# EXECUTABLES
+# BINARIES
 
 testIntComplex: int_complex.test.o int_complex.o unittest.o
 	$(CC) $(CFLAGS) -o testIntComplex int_complex.test.o unittest.o int_complex.o
@@ -69,9 +70,10 @@ pitch_detection.test.o: pitch_detection/tests/pitch_detection.test.c
 .PHONY: all, clean, test
 
 all: $(BINARIES)
+	make $(BINARIES)
 
 clean:
-	rm $(BINARIES) *.o
+	rm -v $(BINARIES) *.o
 
 test:
 	make all
