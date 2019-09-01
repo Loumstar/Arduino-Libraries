@@ -63,7 +63,9 @@ pitch_detection.test.o: pitch_detection/tests/pitch_detection.test.c
 
 # MISC
 
-.PHONY: clean
+.PHONY: all, clean
+
+all: $(BINARIES)
 
 clean:
 	rm -v $(BINARIES) *.o
