@@ -1,8 +1,7 @@
 #include "int_complex.h"
 
 /*
-Small script to handle int_complex arithmetic to be used on the arduino.
-Built upon Loumstar/Arduino-Libraries/int_complex/int_complex.h
+Small script to handle intger complex arithmetic to be used on the arduino.
 */
 
 int icreal(const int_complex z){
@@ -13,9 +12,13 @@ int icimag(const int_complex z){
     return z[1];
 }
 
+
+
 double icabs(const int_complex z){
     return hypot((double) icreal(z), (double) icimag(z));
 }
+
+
 
 void icset_to_zero(int_complex z){
     z[0] = 0; 
@@ -27,6 +30,8 @@ void icconj(const int_complex z, int_complex target){
     target[1] = -icimag(z);
 }
 
+
+
 void icadd_by_real(const int_complex z1, int a, int_complex target){
     target[0] = icreal(z1) + a;
     target[1] = icimag(z1);
@@ -36,6 +41,8 @@ void icadd(const int_complex z1, const int_complex z2, int_complex target){
     target[0] = icreal(z1) + icreal(z2);
     target[1] = icimag(z1) + icimag(z2);
 }
+
+
 
 void icsub_by_real(const int_complex z1, int a, int_complex target){
     target[0] = icreal(z1) - a;
@@ -47,6 +54,13 @@ void icsub(const int_complex z1, const int_complex z2, int_complex target){
     target[1] = icimag(z1) - icimag(z2);
 }
 
+
+
+void icmult_by_real(const int_complex z1, int a, int_complex target){
+    target[0] = icreal(z1) * a;
+    target[1] = icimag(z1) * a;
+}
+
 void icmult(const int_complex z1, const int_complex z2, int_complex target){
     int_complex z3 = { //z3 is used so that if one of the int_complex numbers is also the target, the calculation is not affected.
         (icreal(z1) * icreal(z2)) - (icimag(z1) * icimag(z2)),
@@ -55,6 +69,8 @@ void icmult(const int_complex z1, const int_complex z2, int_complex target){
     target[0] = z3[0];
     target[1] = z3[1];
 }
+
+
 
 void icdiv_by_real(const int_complex z1, int a, int_complex target){
     target[0] = icreal(z1) / a;

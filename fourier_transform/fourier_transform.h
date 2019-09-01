@@ -6,6 +6,7 @@ extern "C" {
 #define FOURIER_TRANSFORM_H
 
     #include <stdio.h>
+    #include <string.h>
     #include <stdlib.h>
 
     #include "int_complex.h"

@@ -13,9 +13,7 @@ extern "C" {
 
     extern const frequency_bin NULL_FREQ_BIN;
 
-    inline void print_frequency_bin(const frequency_bin bin[], size_t index, char msg[]){  
-        sprintf("(%.f Hz, %.2f dB, %.4f)\n", msg, bin[index][0], bin[index][1], bin[index][2]);
-    }
+    inline void print_frequency_bin(const frequency_bin bin[], char msg[], size_t index);
 
 #endif
 

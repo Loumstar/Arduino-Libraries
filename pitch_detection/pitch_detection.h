@@ -10,13 +10,12 @@ extern "C" {
 
     //Arduino Contributed Libraries
     #include "int_complex.h"
-    #include "double_complex.h"
-
-    //Supporting Libraries from scripts/
-    #include "fourier_transform.h"
+    
     #include "frequency_bin_typedef.h"
-    #include "peaks_correlation.h"
+
+    #include "fourier_transform.h"
     #include "peaks_analyser.h"
+    #include "peaks_correlation.h"
 
     void get_pitches(int_complex sample[], int_complex copy[], frequency_bin notes[], double harmonics[]);
 

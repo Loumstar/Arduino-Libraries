@@ -1,6 +1,8 @@
 #include <time.h>
-#include "../double_complex.h"
-#include "../../unittest/unittest.h"
+#include <stdio.h>
+
+#include "double_complex.h"
+#include "unittest.h"
 
 bool assert_complex_equal(const double_complex z, double real, double imag){
     return assert_double_equal(dcreal(z), real) 
@@ -31,9 +33,9 @@ int main(void){
 
     printf("        %.1f + %.1fi\n", real, imag);
     if(assert_double_equal(dcreal(z1), 1) && assert_double_equal(dcimag(z1), 2)){
-        printf("        PASS (took %fs to execute)\n\n", (double) (end - start) / CLOCKS_PER_SEC);
+        printf("        PASS (took %.3fms to execute)\n\n", (double) (end - start) * 1000 / CLOCKS_PER_SEC);
     } else {
-        printf("        FAIL (took %fs to execute)\n\n", (double) (end - start) / CLOCKS_PER_SEC);
+        printf("        FAIL (took %.3fms to execute)\n\n", (double) (end - start) * 1000 / CLOCKS_PER_SEC);
         return 1;
     }
 
@@ -49,9 +51,9 @@ int main(void){
 
     printf("        %.1f + %.1fi\n", dcreal(result), dcimag(result));
     if(assert_complex_equal(result, 0, 0)){
-        printf("        PASS (took %fs to execute)\n\n", (double) (end - start) / CLOCKS_PER_SEC);
+        printf("        PASS (took %.3fms to execute)\n\n", (double) (end - start) * 1000 / CLOCKS_PER_SEC);
     } else {
-        printf("        FAIL (took %fs to execute)\n\n", (double) (end - start) / CLOCKS_PER_SEC);
+        printf("        FAIL (took %.3fms to execute)\n\n", (double) (end - start) * 1000 / CLOCKS_PER_SEC);
         return 1;
     }
 
@@ -67,9 +69,9 @@ int main(void){
 
     printf("        %.1f + %.1fi\n", dcreal(result), dcimag(result));
     if(assert_double_equal(dcreal(result), 1) && assert_double_equal(dcimag(result), -2)){
-        printf("        PASS (took %fs to execute)\n\n", (double) (end - start) / CLOCKS_PER_SEC);
+        printf("        PASS (took %.3fms to execute)\n\n", (double) (end - start) * 1000 / CLOCKS_PER_SEC);
     } else {
-        printf("        FAIL (took %fs to execute)\n\n", (double) (end - start) / CLOCKS_PER_SEC);
+        printf("        FAIL (took %.3fms to execute)\n\n", (double) (end - start) * 1000 / CLOCKS_PER_SEC);
         return 1;
     }
 
@@ -81,9 +83,9 @@ int main(void){
 
     printf("        %.3f...\n", real);
     if(assert_double_equal(dcabs(z1), 2.236)){
-        printf("        PASS (took %fs to execute)\n\n", (double) (end - start) / CLOCKS_PER_SEC);
+        printf("        PASS (took %.3fms to execute)\n\n", (double) (end - start) * 1000 / CLOCKS_PER_SEC);
     } else {
-        printf("        FAIL (took %fs to execute)\n\n", (double) (end - start) / CLOCKS_PER_SEC);
+        printf("        FAIL (took %.3fms to execute)\n\n", (double) (end - start) * 1000 / CLOCKS_PER_SEC);
         return 1;
     }
 
@@ -97,9 +99,9 @@ int main(void){
 
     printf("        %.1f + %.1fi\n", dcreal(result), dcimag(result));
     if(assert_complex_equal(result, 4, 2)){
-        printf("        PASS (took %fs to execute)\n\n", (double) (end - start) / CLOCKS_PER_SEC);
+        printf("        PASS (took %.3fms to execute)\n\n", (double) (end - start) * 1000 / CLOCKS_PER_SEC);
     } else {
-        printf("        FAIL (took %fs to execute)\n\n", (double) (end - start) / CLOCKS_PER_SEC);
+        printf("        FAIL (took %.3fms to execute)\n\n", (double) (end - start) * 1000 / CLOCKS_PER_SEC);
         return 1;
     }
 
@@ -111,9 +113,9 @@ int main(void){
 
     printf("        %.1f + %.1fi\n", dcreal(result), dcimag(result));
     if(assert_complex_equal(result, 6, 3)){
-        printf("        PASS (took %fs to execute)\n\n", (double) (end - start) / CLOCKS_PER_SEC);
+        printf("        PASS (took %.3fms to execute)\n\n", (double) (end - start) * 1000 / CLOCKS_PER_SEC);
     } else {
-        printf("        FAIL (took %fs to execute)\n\n", (double) (end - start) / CLOCKS_PER_SEC);
+        printf("        FAIL (took %.3fms to execute)\n\n", (double) (end - start) * 1000 / CLOCKS_PER_SEC);
         return 1;
     }
 
@@ -125,9 +127,9 @@ int main(void){
 
     printf("        %.1f + %.1fi\n", dcreal(result), dcimag(result));
     if(assert_complex_equal(result, -1, 2)){
-        printf("        PASS (took %fs to execute)\n\n", (double) (end - start) / CLOCKS_PER_SEC);
+        printf("        PASS (took %.3fms to execute)\n\n", (double) (end - start) * 1000 / CLOCKS_PER_SEC);
     } else {
-        printf("        FAIL (took %fs to execute)\n\n", (double) (end - start) / CLOCKS_PER_SEC);
+        printf("        FAIL (took %.3fms to execute)\n\n", (double) (end - start) * 1000 / CLOCKS_PER_SEC);
         return 1;
     }
 
@@ -139,9 +141,9 @@ int main(void){
 
     printf("        %.1f + %.1fi\n", dcreal(result), dcimag(result));
     if(assert_complex_equal(result, 4, -1)){
-        printf("        PASS (took %fs to execute)\n\n", (double) (end - start) / CLOCKS_PER_SEC);
+        printf("        PASS (took %.3fms to execute)\n\n", (double) (end - start) * 1000 / CLOCKS_PER_SEC);
     } else {
-        printf("        FAIL (took %fs to execute)\n\n", (double) (end - start) / CLOCKS_PER_SEC);
+        printf("        FAIL (took %.3fms to execute)\n\n", (double) (end - start) * 1000 / CLOCKS_PER_SEC);
         return 1;
     }
 
@@ -153,9 +155,9 @@ int main(void){
 
     printf("        %.1f + %.1fi\n", dcreal(result), dcimag(result));
     if(assert_complex_equal(result, 3, 6)){
-        printf("        PASS (took %fs to execute)\n\n", (double) (end - start) / CLOCKS_PER_SEC);
+        printf("        PASS (took %.3fms to execute)\n\n", (double) (end - start) * 1000 / CLOCKS_PER_SEC);
     } else {
-        printf("        FAIL (took %fs to execute)\n\n", (double) (end - start) / CLOCKS_PER_SEC);
+        printf("        FAIL (took %.3fms to execute)\n\n", (double) (end - start) * 1000 / CLOCKS_PER_SEC);
         return 1;
     }
 
@@ -167,9 +169,9 @@ int main(void){
 
     printf("        %.1f + %.1fi\n", dcreal(result), dcimag(result));
     if(assert_complex_equal(result, 3, 11)){
-        printf("        PASS (took %fs to execute)\n\n", (double) (end - start) / CLOCKS_PER_SEC);
+        printf("        PASS (took %.3fms to execute)\n\n", (double) (end - start) * 1000 / CLOCKS_PER_SEC);
     } else {
-        printf("        FAIL (took %fs to execute)\n\n", (double) (end - start) / CLOCKS_PER_SEC);
+        printf("        FAIL (took %.3fms to execute)\n\n", (double) (end - start) * 1000 / CLOCKS_PER_SEC);
         return 1;
     }
 
@@ -181,9 +183,9 @@ int main(void){
 
     printf("        %.3f + %.3fi\n", dcreal(result), dcimag(result));
     if(assert_complex_equal(result, 0.833, 1.667)){
-        printf("        PASS (took %fs to execute)\n\n", (double) (end - start) / CLOCKS_PER_SEC);
+        printf("        PASS (took %.3fms to execute)\n\n", (double) (end - start) * 1000 / CLOCKS_PER_SEC);
     } else {
-        printf("        FAIL (took %fs to execute)\n\n", (double) (end - start) / CLOCKS_PER_SEC);
+        printf("        FAIL (took %.3fms to execute)\n\n", (double) (end - start) * 1000 / CLOCKS_PER_SEC);
         return 1;
     }
 
@@ -195,9 +197,9 @@ int main(void){
 
     printf("        %.3f + %.3fi\n", dcreal(result), dcimag(result));
     if(assert_complex_equal(result, 0.269, 0.346)){
-        printf("        PASS (took %fs to execute)\n\n", (double) (end - start) / CLOCKS_PER_SEC);
+        printf("        PASS (took %.3fms to execute)\n\n", (double) (end - start) * 1000 / CLOCKS_PER_SEC);
     } else {
-        printf("        FAIL (took %fs to execute)\n\n", (double) (end - start) / CLOCKS_PER_SEC);
+        printf("        FAIL (took %.3fms to execute)\n\n", (double) (end - start) * 1000 / CLOCKS_PER_SEC);
         return 1;
     }
 
@@ -209,9 +211,9 @@ int main(void){
 
     printf("        %.3f + %.3fi\n", dcreal(result), dcimag(result));
     if(assert_complex_equal(result, -1.131, 2.472)){
-        printf("        PASS (took %fs to execute)\n\n", (double) (end - start) / CLOCKS_PER_SEC);
+        printf("        PASS (took %.3fms to execute)\n\n", (double) (end - start) * 1000 / CLOCKS_PER_SEC);
     } else {
-        printf("        FAIL (took %fs to execute)\n\n", (double) (end - start) / CLOCKS_PER_SEC);
+        printf("        FAIL (took %.3fms to execute)\n\n", (double) (end - start) * 1000 / CLOCKS_PER_SEC);
         return 1;
     }
 

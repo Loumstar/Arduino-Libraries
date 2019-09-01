@@ -6,6 +6,7 @@ extern "C" {
     #define UNITTEST_H
 
     #include <stdbool.h>
+    #include <stdio.h>
     #include <string.h>
     #include <math.h>
 

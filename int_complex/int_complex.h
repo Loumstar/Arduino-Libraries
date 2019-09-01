@@ -36,6 +36,8 @@ extern "C" {
     void icsub(const int_complex z1, const int_complex z2, int_complex target);
 
 
+    void icmult_by_real(const int_complex z1, int a, int_complex target);
+
     void icmult(const int_complex z1, const int_complex z2, int_complex target);
 
 

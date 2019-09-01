@@ -1,20 +1,25 @@
 #include <time.h>
 
-#include "../pitch_detection.no_malloc.h"
-#include "../../unittest/unittest.h"
+#include "pitch_detection.h"
+#include "int_complex.h"
+#include "unittest.h"
+
+#include "frequency_bin_typedef.h"
+
+char msg[100];
 
 bool is_power_of_two(int x){
     return (x & (x - 1)) == 0;
 }
 
-complex* create_signal(const double a[3][2], double offset, size_t length){
+int_complex* create_signal(const double a[3][2], double offset, size_t length){
     /*
     Method to return an array of values that make up an oscillation.
     
     The oscillation can be a combination of frequencies and volumes and are returned
-    as a complex datatype with only real components, so fft can be applied to it.
+    as a int_complex datatype with only real components, so fft can be applied to it.
     */
-    complex* sample_signal = malloc(sizeof(complex) * PD_SAMPLE_ARR_SIZE);
+    int_complex* sample_signal = malloc(sizeof(int_complex) * PD_SAMPLE_ARR_SIZE);
     for(size_t i = 0; i < PD_SAMPLE_ARR_SIZE; i++){
         int sum = 0;
         for(size_t j = 0; j < length; j++){
@@ -53,8 +58,8 @@ int main(void){
 
     //measure time taken to create the test signal.
     start = clock();
-    complex* sample_signal = create_signal(a, 0, a_size);
-    complex* copy = malloc(sizeof(complex) * PD_SAMPLE_ARR_SIZE);
+    int_complex* sample_signal = create_signal(a, 0, a_size);
+    int_complex* copy = malloc(sizeof(int_complex) * PD_SAMPLE_ARR_SIZE);
     end = clock();
 
     printf("Signal created in %.3f ms.\n", (double) (end - start) / CLOCKS_PER_SEC * 1000);
@@ -82,9 +87,15 @@ int main(void){
     get_pitch_bin(notes, pitch_bin);
 
     //Print the notes determined
-    print_frequency_bins(notes, PD_NOTES_ARR_SIZE);
+        for(size_t i = 0; i < PD_NOTES_ARR_SIZE; i++){
+        if(!isnan(notes[i][0])){
+            print_frequency_bin(notes, msg, i);
+            printf("%s", msg);
+        }
+    }
     printf("\n");
-    print_frequency_bins(&pitch_bin, 1);
+    print_frequency_bin(&pitch_bin, msg, 0);
+    printf("%s", msg);
     
     free(sample_signal);
     free(copy);
