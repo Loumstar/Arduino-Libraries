@@ -1,6 +1,13 @@
 CC = gcc
 CFLAGS = -Wall -pedantic
 
+BINARIES = testIntComplex testDoubleComplex testPitchDetection
+
+ARDUINO = arduino-cli compile
+BOARD = --fqbn arduino:avr:mega:cpu=atmega2560
+
+ARDUINO_SKETCHES = arduinoIntComplex arduinoDoubleComplex arduinoPitchDetection
+
 INCLUDES = -I./int_complex/ \
 		   -I./double_complex/ \
 		   -I./unittest/ \
@@ -9,8 +16,6 @@ INCLUDES = -I./int_complex/ \
 		   -I./peaks_analyser/ \
 		   -I./peaks_correlation/ \
 		   -I./pitch_detection/
-
-BINARIES = testIntComplex testDoubleComplex testPitchDetection
 
 # BINARIES
 
@@ -65,17 +70,33 @@ pitch_detection.test.o: pitch_detection/tests/pitch_detection.test.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c pitch_detection/tests/pitch_detection.test.c
 
 
+# VERIFY ARDUINO SKETCHES
+
+arduinoIntComplex: int_complex/tests/int_complex.test/int_complex.test.ino
+	$(ARDUINO) $(BOARD) -o arduinoIntComplex int_complex/tests/int_complex.test/int_complex.test.ino
+
+arduinoDoubleComplex: double_complex/tests/double_complex.test/double_complex.test.ino
+	$(ARDUINO) $(BOARD) -o arduinoDoubleComplex double_complex/tests/double_complex.test/double_complex.test.ino
+
+arduinoPitchDetection: pitch_detection/tests/pitch_detection.test/pitch_detection.test.ino
+	$(ARDUINO) $(BOARD) -o arduinoPitchDetection pitch_detection/tests/pitch_detection.test/pitch_detection.test.ino
+
+
 # MISC
 
-.PHONY: all, clean, test
+.PHONY: all, clean, c-tests, arduino-tests, arduinoIntComplex, arduinoDoubleComplex, arduinoPitchDetection
 
-all: $(BINARIES)
-	make $(BINARIES)
+all: $(BINARIES) $(ARDUINO_SKETCHES)
 
 clean:
-	rm -v $(BINARIES) *.o
+	rm $(BINARIES) *.o *.elf *.hex
 
-test:
-	make all
+c-tests:
+	make $(BINARIES)
 	./run_test_scripts.sh $(BINARIES)
-	make clean
+	rm $(BINARIES) *.o
+
+arduino-tests:
+	make $(ARDUINO_SKETCHES)
+	rm -v *.elf *.hex
+	

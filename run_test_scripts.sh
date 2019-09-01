@@ -2,7 +2,7 @@
 
 for test in "$@"
 do
-    echo -e "\n\nTESTING: $test"
+    echo -e "\n\nTESTING: $test\n"
     ./$test
     
     if [ $? -ne 0 ]

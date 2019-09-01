@@ -19,17 +19,15 @@ void setup(void){
 }
 
 int main(void){
+    uint32_t main_start = micros();
+    uint32_t start, end;
+
     const double_complex z1 = {1, 2}; // 1 + 2i
     const double_complex z2 = {5, 1}; // 5 + i
 
     double_complex result = {1, -2}; //something non-zero
 
     double real, imag;
-
-    uint32_t start, end;
-    double function_time;
-
-
 
     printf("1: Find the real and imaginary components of a double_complex number.\n");
     
@@ -48,7 +46,7 @@ int main(void){
         sprintf(msg, "        FAIL (took %.3fms to execute)\n\n", (double) (end - start) / 1000);
         Serial.print(msg);
         digitalWrite(FAIL_LED, HIGH);
-        while(false);
+        while(true);
     }
 
 
@@ -69,7 +67,7 @@ int main(void){
         sprintf(msg, "        FAIL (took %.3fms to execute)\n\n", (double) (end - start) / 1000);
         Serial.print(msg);
         digitalWrite(FAIL_LED, HIGH);
-        while(false);
+        while(true);
     }
 
 
@@ -90,7 +88,7 @@ int main(void){
         sprintf(msg, "        FAIL (took %.3fms to execute)\n\n", (double) (end - start) / 1000);
         Serial.print(msg);
         digitalWrite(FAIL_LED, HIGH);
-        while(false);
+        while(true);
     }
 
     printf("    Modulus: Assert equal the square root of 5 = 2.236...\n");
@@ -107,7 +105,7 @@ int main(void){
         sprintf(msg, "        FAIL (took %.3fms to execute)\n\n", (double) (end - start) / 1000);
         Serial.print(msg);
         digitalWrite(FAIL_LED, HIGH);
-        while(false);
+        while(true);
     }
 
     printf("4: Calculate new double_complex numbers with basic arithmetic.\n");
@@ -126,7 +124,7 @@ int main(void){
         sprintf(msg, "        FAIL (took %.3fms to execute)\n\n", (double) (end - start) / 1000);
         Serial.print(msg);
         digitalWrite(FAIL_LED, HIGH);
-        while(false);
+        while(true);
     }
 
     printf("    Addition: Assert equal 6 + 3i.\n");
@@ -143,7 +141,7 @@ int main(void){
         sprintf(msg, "        FAIL (took %.3fms to execute)\n\n", (double) (end - start) / 1000);
         Serial.print(msg);
         digitalWrite(FAIL_LED, HIGH);
-        while(false);
+        while(true);
     }
 
     printf("    Subtraction by real: Assert -1 + 2i.\n");
@@ -160,7 +158,7 @@ int main(void){
         sprintf(msg, "        FAIL (took %.3fms to execute)\n\n", (double) (end - start) / 1000);
         Serial.print(msg);
         digitalWrite(FAIL_LED, HIGH);
-        while(false);
+        while(true);
     }
 
     printf("    Subtraction: Assert equal 4 + -1i.\n");
@@ -177,7 +175,7 @@ int main(void){
         sprintf(msg, "        FAIL (took %.3fms to execute)\n\n", (double) (end - start) / 1000);
         Serial.print(msg);
         digitalWrite(FAIL_LED, HIGH);
-        while(false);
+        while(true);
     }
 
     printf("    Multiplication by real: Assert equal 3 + 6i.\n");
@@ -194,7 +192,7 @@ int main(void){
         sprintf(msg, "        FAIL (took %.3fms to execute)\n\n", (double) (end - start) / 1000);
         Serial.print(msg);
         digitalWrite(FAIL_LED, HIGH);
-        while(false);
+        while(true);
     }
 
     printf("    Multiplication: Assert equal 3 + 11i.\n");
@@ -211,7 +209,7 @@ int main(void){
         sprintf(msg, "        FAIL (took %.3fms to execute)\n\n", (double) (end - start) / 1000);
         Serial.print(msg);
         digitalWrite(FAIL_LED, HIGH);
-        while(false);
+        while(true);
     }
 
     printf("    Division by real: Assert equals 0.833 + 1.667i.\n");
@@ -228,7 +226,7 @@ int main(void){
         sprintf(msg, "        FAIL (took %.3fms to execute)\n\n", (double) (end - start) / 1000);
         Serial.print(msg);
         digitalWrite(FAIL_LED, HIGH);
-        while(false);
+        while(true);
     }
 
     printf("    Division: Assert equal 0.269 + 0.346i.\n");
@@ -245,7 +243,7 @@ int main(void){
         sprintf(msg, "        FAIL (took %.3fms to execute)\n\n", (double) (end - start) / 1000);
         Serial.print(msg);
         digitalWrite(FAIL_LED, HIGH);
-        while(false);
+        while(true);
     }
 
     printf("    Exponential: Assert equal -1.131 + 2.472i.\n");
@@ -262,9 +260,12 @@ int main(void){
         sprintf(msg, "        FAIL (took %.3fms to execute)\n\n", (double) (end - start) / 1000);
         Serial.print(msg);
         digitalWrite(FAIL_LED, HIGH);
-        while(false);
+        while(true);
     }
 
+    uint32_t main_end = micros();
+    printf("Test completed in %.3f ms.\n", (double) (main_end - main_start) / 1000);
+    
     digitalWrite(PASS_LED, HIGH);
-    while(false);
+    while(true);
 }

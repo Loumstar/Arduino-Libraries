@@ -18,6 +18,9 @@ void setup(void){
 }
 
 void loop(void){
+    uint32_t main_start = micros();
+    uint32_t start, end;
+
     int_complex z1 = {62, 12};
     int_complex z2 = {76, 93};
 
@@ -25,11 +28,6 @@ void loop(void){
 
     int real, imag;
     double dreal;
-
-    uint32_t start, end;
-    double function_time;
-
-
 
     Serial.print("1: Find the real and imaginary components of a int_complex number.\n");
 
@@ -50,7 +48,7 @@ void loop(void){
         sprintf("        FAIL (took %.3fms to execute)\n\n", msg, (double) (end - start) / 1000);
         Serial.print(msg);
         digitalWrite(FAIL_LED, HIGH);
-        while(false);
+        while(true);
     }
 
 
@@ -73,7 +71,7 @@ void loop(void){
         sprintf("        FAIL (took %.3fms to execute)\n\n", msg, (double) (end - start) / 1000);
         Serial.print(msg);
         digitalWrite(FAIL_LED, HIGH);
-        while(false);
+        while(true);
     }
 
 
@@ -96,7 +94,7 @@ void loop(void){
         sprintf("        FAIL (took %.3fms to execute)\n\n", msg, (double) (end - start) / 1000);
         Serial.print(msg);
         digitalWrite(FAIL_LED, HIGH);
-        while(false);
+        while(true);
     }
 
     Serial.print("    Conjugate: Assert equal 62 + -12i.\n");
@@ -115,7 +113,7 @@ void loop(void){
         sprintf("        FAIL (took %.3fms to execute)\n\n", msg, (double) (end - start) / 1000);
         Serial.print(msg);
         digitalWrite(FAIL_LED, HIGH);
-        while(false);
+        while(true);
     }
 
 
@@ -138,7 +136,7 @@ void loop(void){
         sprintf("        FAIL (took %.3fms to execute)\n\n", msg, (double) (end - start) / 1000);
         Serial.print(msg);
         digitalWrite(FAIL_LED, HIGH);
-        while(false);
+        while(true);
     }
 
     Serial.print("    Addition: Assert equal 138 + 105i.\n");
@@ -157,7 +155,7 @@ void loop(void){
         sprintf("        FAIL (took %.3fms to execute)\n\n", msg, (double) (end - start) / 1000);
         Serial.print(msg);
         digitalWrite(FAIL_LED, HIGH);
-        while(false);
+        while(true);
     }
 
     Serial.print("    Subtraction by real: Assert 60 + 12i.\n");
@@ -176,7 +174,7 @@ void loop(void){
         sprintf("        FAIL (took %.3fms to execute)\n\n", msg, (double) (end - start) / 1000);
         Serial.print(msg);
         digitalWrite(FAIL_LED, HIGH);
-        while(false);
+        while(true);
     }
 
     Serial.print("    Subtraction: Assert equal 14 + 81i.\n");
@@ -195,7 +193,7 @@ void loop(void){
         sprintf("        FAIL (took %.3fms to execute)\n\n", msg, (double) (end - start) / 1000);
         Serial.print(msg);
         digitalWrite(FAIL_LED, HIGH);
-        while(false);
+        while(true);
     }
 
     Serial.print("    Division by real: Assert equals 31 + 6i.\n");
@@ -214,9 +212,12 @@ void loop(void){
         sprintf("        FAIL (took %.3fms to execute)\n\n", msg, (double) (end - start) / 1000);
         Serial.print(msg);
         digitalWrite(FAIL_LED, HIGH);
-        while(false);
+        while(true);
     }
 
+    uint32_t main_end = micros();
+    printf("Test completed in %.3f ms.\n", (double) (main_end - main_start) / 1000);
+
     digitalWrite(PASS_LED, HIGH);
-    while(false);
+    while(true);
 }
