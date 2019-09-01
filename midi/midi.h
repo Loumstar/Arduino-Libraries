@@ -5,7 +5,6 @@ extern "C" {
 #ifndef MIDI_H
     #define MIDI_H
 
-    #include <SoftwareSerial.h>
     #include <stdio.h>
 
     #ifndef MAX_VOICES
@@ -15,8 +14,6 @@ extern "C" {
     #ifndef NOTE_TYPEDEF
     typedef double note[3]; // first element is note number, second is frequency, third is volume
     #endif
-
-    int* get_midi_msg(int msg[3], Stream &midiDevice);
 
     void handle_midi_msg(int msg[3], note notes[]);
 

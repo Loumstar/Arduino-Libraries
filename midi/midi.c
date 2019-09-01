@@ -26,16 +26,6 @@ void note_on(int n, int vol, note notes[]){
     }
 }
 
-int* get_midi_msg(int msg[3], Stream &midiDevice){
-    size_t msg_length = midiDevice.available();
-    size_t i = 0;
-
-    while(i < msg_length){
-        msg[i] = midiDevice.read(); //need to check for status byte
-        i++;
-    }
-}
-
 void handle_midi_msg(int msg[3], note notes[]){
     if(msg[0] < 0xA0){ // only handle note on/off messages
         if(msg[0] < 0x90){

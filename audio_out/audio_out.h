@@ -6,6 +6,8 @@ extern "C" {
     #define AUDIO_OUT_H
 
     #include <math.h>
+    #include <stdio.h>
+    #include <stdint.h>
 
     #ifndef MAX_VOICES
     #define MAX_VOICES 10
