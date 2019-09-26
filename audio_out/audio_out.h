@@ -8,16 +8,11 @@ extern "C" {
     #include <math.h>
     #include <stdio.h>
     #include <stdint.h>
+    #include <stdlib.h>
 
-    #ifndef MAX_VOICES
-    #define MAX_VOICES 10
-    #endif
+    #include "midi.h"
 
-    #ifndef NOTE_TYPEDEF
-    typedef double note[3]; // first element is note number, second is frequency, third is volume
-    #endif
-
-    uint8_t combined_notes_amplitude_8bit(uint8_t sample[], note notes[], double voice_f, size_t frame, size_t sample_frames);
+    int32_t combined_notes_amplitude(int32_t sample[], note notes[], double voice_f, size_t frame, size_t sample_frames);
 
 #endif
 

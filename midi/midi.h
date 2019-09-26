@@ -6,6 +6,9 @@ extern "C" {
     #define MIDI_H
 
     #include <stdio.h>
+    #include <math.h>
+
+    #define MAX_MIDI_VOLUME 128
 
     #ifndef MAX_VOICES
     #define MAX_VOICES 10

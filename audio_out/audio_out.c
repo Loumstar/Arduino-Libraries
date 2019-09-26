@@ -1,6 +1,17 @@
 #include "audio_out.h"
 
-uint8_t combined_notes_amplitude_8bit(uint8_t sample[], note notes[], double voice_f, size_t frame, size_t sample_frames){
+double get_linear_approx(int32_t array[], double index){
+    
+    
+    int32_t lower_bound = array[(size_t) floor(index)];
+    int32_t upper_bound = array[(size_t) floor(index) + 1];
+
+    double proportion = index - floor(index);
+
+    return (upper_bound * proportion) + (lower_bound * (1 - proportion));
+}
+
+int32_t combined_notes_amplitude(int32_t sample[], note notes[], double voice_f, size_t frame, size_t sample_frames){
     /*
     Method that returns the amplitude of the waveform at a given frame for all of the
     combined notes.
@@ -26,14 +37,19 @@ uint8_t combined_notes_amplitude_8bit(uint8_t sample[], note notes[], double voi
     normal speed.
     */
 
-    int amplitude = 0;
-    size_t j;
+    int64_t amplitude = 0;
+    int numberof_voices = 0;
+    double j;
     
     for(size_t i = 0; i < MAX_VOICES; i++){
         if(notes[i][0]){
-            j = ((size_t) (frame * notes[i][1] / voice_f)) % (sample_frames - 1);
-            amplitude += round(sample[j] * notes[i][2]); // Frame (0-255) * volume (0-1)
+            j = fmod(frame * notes[i][1] / voice_f, sample_frames - 1);
+            amplitude += (int64_t) get_linear_approx(sample, j) * notes[i][2]; // Frame (0-255) * volume (0-128)
+            numberof_voices++;
         }
     }
-    return amplitude > 255 ? 255 : amplitude; // to avoid overflow
+
+    amplitude = round(amplitude / MAX_MIDI_VOLUME);
+    
+    return llabs(amplitude) > INT32_MAX ? INT32_MAX : (int32_t) amplitude;
 }

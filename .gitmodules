@@ -1,0 +1,3 @@
+[submodule "audio_out/tests/Write-WAV-File"]
+	path = audio_out/tests/Write-WAV-File
+	url = git@github.com:Loumstar/Write-WAV-File.git
