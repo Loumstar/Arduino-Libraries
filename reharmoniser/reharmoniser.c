@@ -1,6 +1,6 @@
-#include "audio_out.h"
+#include "reharmoniser.h"
 
-double get_linear_approx(int32_t array[], double index){
+long double get_linear_approx(int32_t array[], double index){
     /*
     Method that returns a linear approximation of the displacement of the wave at a 
     non-integer index.
@@ -11,18 +11,17 @@ double get_linear_approx(int32_t array[], double index){
    
     size_t index_floored = (size_t) floor(index);
 
-    int32_t lower_bound = array[index_floored];
-    int32_t upper_bound = array[index_floored + 1];
+    int32_t lower_frame = array[index_floored];
+    int32_t upper_frame = array[index_floored + 1];
 
     double proportion = index - index_floored;
 
-    return (upper_bound * proportion) + (lower_bound * (1 - proportion));
+    return (upper_frame * proportion) + (lower_frame * (1 - proportion));
 }
 
-int32_t combined_notes_amplitude(int32_t sample[], note notes[], double voice_f, size_t frame, size_t sample_frames){
+int32_t get_reharmonised_wave_amplitude(int32_t sample[], note notes[], double voice_f, size_t frame, size_t sample_frames){
     /*
-    Method that returns the amplitude of the waveform at a given frame for all of the
-    combined notes.
+    Method that returns the amplitude of the reharmonised waveform at a given frame.
 
     The waveform works by summing the amplitudes (superposition) of the sample running at
     different speeds to produce the waveform for each individual note frequency.

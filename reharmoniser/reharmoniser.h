@@ -12,7 +12,7 @@ extern "C" {
 
     #include "midi.h"
 
-    int32_t combined_notes_amplitude(int32_t sample[], note notes[], double voice_f, size_t frame, size_t sample_frames);
+    int32_t get_reharmonised_wave_amplitude(int32_t sample[], note notes[], double voice_f, size_t frame, size_t sample_frames);
 
 #endif
 

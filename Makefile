@@ -1,21 +1,21 @@
 CC = gcc
 CFLAGS = -Wall -pedantic
 
-BINARIES = testAudioOut testIntComplex testDoubleComplex testPitchDetection
+BINARIES = testReharmoniser testIntComplex testDoubleComplex testPitchDetection
 
 ARDUINO = arduino-cli compile
 BOARD = --fqbn arduino:avr:mega:cpu=atmega2560
 
 ARDUINO_SKETCHES = arduinoIntComplex arduinoDoubleComplex arduinoPitchDetection
 
-WAVE_FILE_DIRECTORY =  ./audio_out/tests/Write-WAV-File/
+WAVE_FILE_DIRECTORY =  ./reharmoniser/tests/Write-WAV-File/
 _WAVE_FILE_OBJECT_FILES = endianness.o wave_header.o wave.o wave_file.o
 WAVE_FILE_OBJECT_FILES = $(patsubst %,$(WAVE_FILE_DIRECTORY)/%,$(_WAVE_FILE_OBJECT_FILES))
 
 WAVE_FILE_INCLUDES = -I$(WAVE_FILE_DIRECTORY) \
 					 -I$(WAVE_FILE_DIRECTORY)scripts/
 
-INCLUDES = -I./audio_out/ \
+INCLUDES = -I./reharmoniser/ \
 		   -I./int_complex/ \
 		   -I./double_complex/ \
 		   -I./unittest/ \
@@ -28,9 +28,9 @@ INCLUDES = -I./audio_out/ \
 
 # BINARIES
 
-testAudioOut: audio_out.test.o audio_out.o midi.o
+testReharmoniser: reharmoniser.test.o reharmoniser.o midi.o
 	make --directory=$(WAVE_FILE_DIRECTORY) objects
-	$(CC) $(CFLAGS) -o testAudioOut $(WAVE_FILE_OBJECT_FILES) audio_out.test.o audio_out.o midi.o
+	$(CC) $(CFLAGS) -o testReharmoniser $(WAVE_FILE_OBJECT_FILES) reharmoniser.test.o reharmoniser.o midi.o
 
 testIntComplex: int_complex.test.o int_complex.o unittest.o
 	$(CC) $(CFLAGS) -o testIntComplex int_complex.test.o unittest.o int_complex.o
@@ -45,8 +45,8 @@ testPitchDetection: pitch_detection.test.o pitch_detection.o peaks_correlation.o
 # OBJECT FILES
 
 # BASIC LIBRARIES
-audio_out.o: audio_out/audio_out.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c audio_out/audio_out.c
+reharmoniser.o: reharmoniser/reharmoniser.c
+	$(CC) $(CFLAGS) $(INCLUDES) -c reharmoniser/reharmoniser.c
 
 int_complex.o: int_complex/int_complex.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c int_complex/int_complex.c
@@ -79,8 +79,8 @@ pitch_detection.o: pitch_detection/pitch_detection.c
 
 
 # TESTS
-audio_out.test.o: audio_out/tests/audio_out.test.c
-	$(CC) $(CFLAGS) $(INCLUDES) $(WAVE_FILE_INCLUDES) -c audio_out/tests/audio_out.test.c
+reharmoniser.test.o: reharmoniser/tests/reharmoniser.test.c
+	$(CC) $(CFLAGS) $(INCLUDES) $(WAVE_FILE_INCLUDES) -c reharmoniser/tests/reharmoniser.test.c
 
 int_complex.test.o: int_complex/tests/int_complex.test.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c int_complex/tests/int_complex.test.c

@@ -1,11 +1,11 @@
 #include "Write-WAV-File/wave_file.h"
 #include "Write-WAV-File/scripts/wave.h"
 
-#include "audio_out.h"
+#include "reharmoniser.h"
 #include "midi.h"
 
 int main(void){
-    char a_note_filename[] = "./audio_out/tests/a_note.wav";
+    char a_note_filename[] = "./reharmoniser/tests/a_note.wav";
     char chord_filename[] = "c_major.test.wav";
 
     uint16_t bits_per_sample = 32;
@@ -35,13 +35,11 @@ int main(void){
     };
 
     for(size_t i = 0; i < a_note.numberof_samples; i++){
-        printf("%i --> ", a_note_array[i]);
         a_note_array[i] = (int32_t) a_note_array[i] * bit_depth_ratio;
-        printf("%i\n", a_note_array[i]);
     }
 
     for(size_t i = 0; i < a_note.numberof_samples; i++){
-        chord_array[i] = combined_notes_amplitude(a_note_array, notes, 440.0, i, a_note.numberof_samples);
+        chord_array[i] = get_reharmonised_wave_amplitude(a_note_array, notes, 440.0, i, a_note.numberof_samples);
     }
 
     write_array_to_wav_file(chord_filename, chord_array, a_note.numberof_samples, 2, a_note.header.sample_rate, bits_per_sample);
