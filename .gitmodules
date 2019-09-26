@@ -1,6 +1,3 @@
-[submodule "Write-WAV-File"]
-	path = Write-WAV-File
-	url = git@github.com:Loumstar/Write-WAV-File.git
 [submodule "reharmoniser/tests/Write-WAV-File"]
 	path = reharmoniser/tests/Write-WAV-File
 	url = git@github.com:Loumstar/Write-WAV-File.git
