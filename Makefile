@@ -9,8 +9,9 @@ BOARD = --fqbn arduino:avr:mega:cpu=atmega2560
 ARDUINO_SKETCHES = arduinoIntComplex arduinoDoubleComplex arduinoPitchDetection
 
 WAVE_FILE_DIRECTORY =  ./reharmoniser/tests/Write-WAV-File/
-_WAVE_FILE_OBJECT_FILES = endianness.o wave_header.o wave.o wave_file.o
-WAVE_FILE_OBJECT_FILES = $(patsubst %,$(WAVE_FILE_DIRECTORY)/%,$(_WAVE_FILE_OBJECT_FILES))
+WAVE_FILE_OBJECT_FILES = endianness.o wave_header.o wave.o wave_file.o
+
+WAVE_FILE_OBJECT_FILES_FULL_PATH = $(patsubst %,$(WAVE_FILE_DIRECTORY)%,$(WAVE_FILE_OBJECT_FILES))
 
 WAVE_FILE_INCLUDES = -I$(WAVE_FILE_DIRECTORY) \
 					 -I$(WAVE_FILE_DIRECTORY)scripts/
@@ -30,7 +31,7 @@ INCLUDES = -I./reharmoniser/ \
 
 testReharmoniser: reharmoniser.test.o reharmoniser.o midi.o
 	make --directory=$(WAVE_FILE_DIRECTORY) objects
-	$(CC) $(CFLAGS) -o testReharmoniser $(WAVE_FILE_OBJECT_FILES) reharmoniser.test.o reharmoniser.o midi.o
+	$(CC) $(CFLAGS) -o testReharmoniser $(WAVE_FILE_OBJECT_FILES_FULL_PATH) reharmoniser.test.o reharmoniser.o midi.o
 
 testIntComplex: int_complex.test.o int_complex.o unittest.o
 	$(CC) $(CFLAGS) -o testIntComplex int_complex.test.o unittest.o int_complex.o
@@ -111,7 +112,7 @@ arduinoPitchDetection: pitch_detection/tests/pitch_detection.test/pitch_detectio
 all: $(BINARIES) $(ARDUINO_SKETCHES)
 
 clean:
-	rm -v $(BINARIES) $(WAVE_FILE_OBJECT_FILES) *.o *.elf *.hex *.wav
+	rm -v $(BINARIES) $(WAVE_FILE_OBJECT_FILES_FULL_PATH) *.o *.elf *.hex *.wav
 
 c-tests:
 	make $(BINARIES)

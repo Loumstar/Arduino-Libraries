@@ -7,13 +7,19 @@
 # Unignore all dirs
 !*/
 
-# Unignore License and Makefile
+# Ignore hidden, wav, object and arduino hex files
+*.o
+*.elf
+*.hex
+*.wav
+
+.*
+
+# Unignore git hidden files, license, makefile and a_note.wav
+!/.gitignore
+!/.gitmodules
+
 !/Makefile
 !/LICENSE
 
-#All files with extensions are unignored, with the exception of hidden files and object files
-*.o
-.*
-
-!/.gitignore
-!/.gitmodules
+!/reharmoniser/tests/a_note.wav
