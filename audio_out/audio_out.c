@@ -1,12 +1,20 @@
 #include "audio_out.h"
 
 double get_linear_approx(int32_t array[], double index){
-    
-    
-    int32_t lower_bound = array[(size_t) floor(index)];
-    int32_t upper_bound = array[(size_t) floor(index) + 1];
+    /*
+    Method that returns a linear approximation of the displacement of the wave at a 
+    non-integer index.
 
-    double proportion = index - floor(index);
+    This is done by finding the displacement of the frames the index falls between and
+    approximating the displacement based on how close it is to each frame.
+    */
+   
+    size_t index_floored = (size_t) floor(index);
+
+    int32_t lower_bound = array[index_floored];
+    int32_t upper_bound = array[index_floored + 1];
+
+    double proportion = index - index_floored;
 
     return (upper_bound * proportion) + (lower_bound * (1 - proportion));
 }
