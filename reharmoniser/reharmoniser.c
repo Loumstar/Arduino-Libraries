@@ -45,18 +45,16 @@ int32_t get_reharmonised_wave_amplitude(int32_t sample[], note notes[], double v
     */
 
     int64_t amplitude = 0;
-    int numberof_voices = 0;
     double j;
     
     for(size_t i = 0; i < MAX_VOICES; i++){
         if(notes[i][0]){
             j = fmod(frame * notes[i][1] / voice_f, sample_frames - 1);
             amplitude += (int64_t) get_linear_approx(sample, j) * notes[i][2]; // Frame (0-255) * volume (0-128)
-            numberof_voices++;
         }
     }
 
     amplitude = round(amplitude / MAX_MIDI_VOLUME);
-    
-    return llabs(amplitude) > INT32_MAX ? INT32_MAX : (int32_t) amplitude;
+        
+    return amplitude > INT32_MAX ? INT32_MAX : amplitude < INT32_MIN ? INT32_MIN : (int32_t) amplitude;
 }

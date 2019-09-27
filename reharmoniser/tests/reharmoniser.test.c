@@ -8,7 +8,7 @@ int main(void){
     char a_note_filename[] = "./reharmoniser/tests/a_note.wav";
     char chord_filename[] = "c_major.test.wav";
 
-    uint16_t bits_per_sample = 32;
+    uint16_t bits_per_sample = 24;
 
     int32_t* a_note_array = NULL;
     int32_t* chord_array = NULL;
@@ -27,6 +27,8 @@ int main(void){
 
     double bit_depth_ratio = pow(2, bits_per_sample - a_note.header.bits_per_sample);
 
+    int numberof_voices = 4;
+
     note notes[MAX_VOICES] = {
         {40, 261.6, 128},
         {44, 329.6, 128},
@@ -35,7 +37,7 @@ int main(void){
     };
 
     for(size_t i = 0; i < a_note.numberof_samples; i++){
-        a_note_array[i] = (int32_t) a_note_array[i] * bit_depth_ratio;
+        a_note_array[i] = (int32_t) (a_note_array[i] * bit_depth_ratio / numberof_voices);
     }
 
     for(size_t i = 0; i < a_note.numberof_samples; i++){
