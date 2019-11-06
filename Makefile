@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -Wall -pedantic
 
-BINARIES = testReharmoniser testIntComplex testDoubleComplex testPitchDetection
+EXECUTABLES = testReharmoniser testIntComplex testDoubleComplex testPitchDetection
 
 ARDUINO = arduino-cli compile
 BOARD = --fqbn arduino:avr:mega:cpu=atmega2560
@@ -10,32 +10,15 @@ ARDUINO_SKETCHES = arduinoIntComplex arduinoDoubleComplex arduinoPitchDetection
 
 UNITTEST_DIR = ./C-UnitTest/
 
-WAVE_FILE_DIRECTORY =  ./reharmoniser/tests/Write-WAV-File/
-
+WAVE_FILE_DIR = ./reharmoniser/tests/Write-WAV-File/
 WAVE_FILE_OBJECT_FILES = endianness.o wave_header.o wave.o wave_file.o
-WAVE_FILE_OBJECT_FILES_FULL_PATH = $(patsubst %,$(WAVE_FILE_DIRECTORY)%,$(WAVE_FILE_OBJECT_FILES))
+WAVE_FILE_OBJECT_FILES_FULL_PATH = $(patsubst %,$(WAVE_FILE_DIR)%,$(WAVE_FILE_OBJECT_FILES))
 
-WAVE_FILE_INCLUDES = \
-	-I$(WAVE_FILE_DIRECTORY) \
-	-I$(WAVE_FILE_DIRECTORY)scripts/
+INCLUDES = -I$(UNITTEST_DIR) -I$(WAVE_FILE_DIR)
 
-INCLUDES = \
-	-I./reharmoniser/ \
-	-I./int_complex/ \
-	-I./double_complex/ \
-	-I./midi/ \
-	-I./fourier_transform/ \
-	-I./frequency_bin_typedef/ \
-	-I./peaks_analyser/ \
-	-I./peaks_correlation/ \
-	-I./pitch_detection/ \
-	-I$(UNITTEST_DIR) \
-	$(WAVE_FILE_INCLUDES)
-
-# BINARIES
+# EXECUTABLES
 
 testReharmoniser: reharmoniser.test.o reharmoniser.o midi.o
-	make --directory=$(WAVE_FILE_DIRECTORY) objects
 	$(CC) $(CFLAGS) -o testReharmoniser $(WAVE_FILE_OBJECT_FILES_FULL_PATH) reharmoniser.test.o reharmoniser.o midi.o
 
 testIntComplex: int_complex.test.o int_complex.o $(UNITTEST_DIR)unittest.o
@@ -106,25 +89,21 @@ arduinoDoubleComplex: double_complex/tests/double_complex.test/double_complex.te
 arduinoPitchDetection: pitch_detection/tests/pitch_detection.test/pitch_detection.test.ino
 	$(ARDUINO) $(BOARD) -o arduinoPitchDetection pitch_detection/tests/pitch_detection.test/pitch_detection.test.ino
 
-
 # MISC
 
-.PHONY: all, clean, submodules, c-tests, arduino-tests, arduinoIntComplex, arduinoDoubleComplex, arduinoPitchDetection
+.PHONY: all, clean, submodules, objects, c-tests, arduino-tests
 
-all: $(BINARIES) $(ARDUINO_SKETCHES)
+all: $(EXECUTABLES) $(ARDUINO_SKETCHES)
 
 clean:
-	rm -v $(BINARIES) $(WAVE_FILE_OBJECT_FILES_FULL_PATH) *.o *.elf *.hex *.wav
+	rm -v $(EXECUTABLES) *.o *.elf *.hex *.wav
 
 submodules:
-	make --directory=$(WAVE_FILE_DIRECTORY) objects
+	make --directory=$(WAVE_FILE_DIR) objects
 
-c-tests:
-	make $(BINARIES)
-	./run_test_scripts.sh $(BINARIES)
-	rm $(BINARIES) *.o
+c-tests: $(EXECUTABLES)
+	./run_test_scripts.sh $(EXECUTABLES)
 
 arduino-tests:
 	make $(ARDUINO_SKETCHES)
-	rm *.elf *.hex
 	
