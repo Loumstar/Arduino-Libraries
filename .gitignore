@@ -23,3 +23,7 @@
 !LICENSE
 
 !reharmoniser/tests/a_note.wav
+
+# Unignore submodules
+!reharmoniser/tests/Write-WAV-File
+!C-UnitTest

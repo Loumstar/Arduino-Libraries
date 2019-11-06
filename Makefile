@@ -8,27 +8,29 @@ BOARD = --fqbn arduino:avr:mega:cpu=atmega2560
 
 ARDUINO_SKETCHES = arduinoIntComplex arduinoDoubleComplex arduinoPitchDetection
 
-WAVE_FILE_DIRECTORY =  ./reharmoniser/tests/Write-WAV-File/
-WAVE_FILE_OBJECT_FILES = endianness.o wave_header.o wave.o wave_file.o
-
-WAVE_FILE_OBJECT_FILES_FULL_PATH = $(patsubst %,$(WAVE_FILE_DIRECTORY)%,$(WAVE_FILE_OBJECT_FILES))
-
-WAVE_FILE_INCLUDES = -I$(WAVE_FILE_DIRECTORY) \
-					 -I$(WAVE_FILE_DIRECTORY)scripts/
-
 UNITTEST_DIR = ./C-UnitTest/
 
-INCLUDES = -I./reharmoniser/ \
-		   -I./int_complex/ \
-		   -I./double_complex/ \
-		   -I./midi/ \
-		   -I./fourier_transform/ \
-		   -I./frequency_bin_typedef/ \
-		   -I./peaks_analyser/ \
-		   -I./peaks_correlation/ \
-		   -I./pitch_detection/ \
-		   -I$(UNITTEST_DIR) \
-		   -I$(WAVE_FILE_INCLUDES)
+WAVE_FILE_DIRECTORY =  ./reharmoniser/tests/Write-WAV-File/
+
+WAVE_FILE_OBJECT_FILES = endianness.o wave_header.o wave.o wave_file.o
+WAVE_FILE_OBJECT_FILES_FULL_PATH = $(patsubst %,$(WAVE_FILE_DIRECTORY)%,$(WAVE_FILE_OBJECT_FILES))
+
+WAVE_FILE_INCLUDES = \
+	-I$(WAVE_FILE_DIRECTORY) \
+	-I$(WAVE_FILE_DIRECTORY)scripts/
+
+INCLUDES = \
+	-I./reharmoniser/ \
+	-I./int_complex/ \
+	-I./double_complex/ \
+	-I./midi/ \
+	-I./fourier_transform/ \
+	-I./frequency_bin_typedef/ \
+	-I./peaks_analyser/ \
+	-I./peaks_correlation/ \
+	-I./pitch_detection/ \
+	-I$(UNITTEST_DIR) \
+	$(WAVE_FILE_INCLUDES)
 
 # BINARIES
 
@@ -107,12 +109,15 @@ arduinoPitchDetection: pitch_detection/tests/pitch_detection.test/pitch_detectio
 
 # MISC
 
-.PHONY: all, clean, c-tests, arduino-tests, arduinoIntComplex, arduinoDoubleComplex, arduinoPitchDetection
+.PHONY: all, clean, submodules, c-tests, arduino-tests, arduinoIntComplex, arduinoDoubleComplex, arduinoPitchDetection
 
 all: $(BINARIES) $(ARDUINO_SKETCHES)
 
 clean:
 	rm -v $(BINARIES) $(WAVE_FILE_OBJECT_FILES_FULL_PATH) *.o *.elf *.hex *.wav
+
+submodules:
+	make --directory=$(WAVE_FILE_DIRECTORY) objects
 
 c-tests:
 	make $(BINARIES)
