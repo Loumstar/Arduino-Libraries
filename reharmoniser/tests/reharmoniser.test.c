@@ -1,8 +1,8 @@
 #include "Write-WAV-File/wave_file.h"
 #include "Write-WAV-File/scripts/wave.h"
 
-#include "reharmoniser.h"
-#include "midi.h"
+#include "../reharmoniser.h"
+#include "../../midi/midi.h"
 
 int main(void){
     char a_note_filename[] = "./reharmoniser/tests/a_note.wav";

@@ -9,8 +9,13 @@ extern "C" {
     #include <string.h>
     #include <stdlib.h>
 
-    #include "int_complex.h"
-    #include "double_complex.h"
+    #ifndef Arduino_h
+        #include "../int_complex/int_complex.h"
+        #include "../double_complex/double_complex.h"
+    #else
+        #include "int_complex.h"
+        #include "double_complex.h"
+    #endif
     
     void convert_to_frequency_domain(int_complex sample[], int_complex copy[], int sample_array_size);
 

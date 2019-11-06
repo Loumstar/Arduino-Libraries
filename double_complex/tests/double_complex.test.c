@@ -1,8 +1,8 @@
 #include <time.h>
 #include <stdio.h>
 
-#include "double_complex.h"
-#include "unittest.h"
+#include "../double_complex.h"
+#include "../../C-UnitTest/unittest.h"
 
 bool assert_complex_equal(const double_complex z, double real, double imag){
     return assert_double_equal(dcreal(z), real) 

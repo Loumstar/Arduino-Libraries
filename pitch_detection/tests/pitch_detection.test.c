@@ -1,10 +1,10 @@
 #include <time.h>
 
-#include "pitch_detection.h"
-#include "int_complex.h"
-#include "unittest.h"
+#include "../pitch_detection.h"
+#include "../../int_complex/int_complex.h"
+#include "../../C-UnitTest/unittest.h"
 
-#include "frequency_bin_typedef.h"
+#include "../../frequency_bin_typedef/frequency_bin_typedef.h"
 
 char msg[100];
 

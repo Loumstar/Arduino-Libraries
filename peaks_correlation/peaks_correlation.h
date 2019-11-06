@@ -7,7 +7,11 @@ extern "C" {
 
     #include <math.h>
 
-    #include "frequency_bin_typedef.h"
+    #ifndef Arduino_h
+        #include "../frequency_bin_typedef/frequency_bin_typedef.h"
+    #else
+        #include "frequency_bin_typedef.h"
+    #endif
 
     #define PD_NORMAL_DIST_WIDTH 100.0
     #define PD_HARMONICS_ARR_SIZE 20

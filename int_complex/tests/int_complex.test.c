@@ -1,8 +1,8 @@
 #include <time.h>
 #include <stdio.h>
 
-#include "int_complex.h"
-#include "unittest.h"
+#include "../int_complex.h"
+#include "../../C-UnitTest/unittest.h"
 
 char msg[100];
 

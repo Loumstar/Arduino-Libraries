@@ -11,8 +11,13 @@ extern "C" {
     #include <string.h>
     #include <math.h>
 
-    #include "int_complex.h"
-    #include "frequency_bin_typedef.h"
+    #ifndef Arduino_h
+        #include "../int_complex/int_complex.h"
+        #include "../frequency_bin_typedef/frequency_bin_typedef.h"
+    #else
+        #include "int_complex.h"
+        #include "frequency_bin_typedef.h"
+    #endif
 
     //Number of frames recorded per second (typically 44.1kHz for CD).
     #define PD_SAMPLE_RATE 2560
