@@ -16,16 +16,19 @@ WAVE_FILE_OBJECT_FILES_FULL_PATH = $(patsubst %,$(WAVE_FILE_DIRECTORY)%,$(WAVE_F
 WAVE_FILE_INCLUDES = -I$(WAVE_FILE_DIRECTORY) \
 					 -I$(WAVE_FILE_DIRECTORY)scripts/
 
+UNITTEST_DIR = ./C-UnitTest/
+
 INCLUDES = -I./reharmoniser/ \
 		   -I./int_complex/ \
 		   -I./double_complex/ \
-		   -I./unittest/ \
 		   -I./midi/ \
 		   -I./fourier_transform/ \
 		   -I./frequency_bin_typedef/ \
 		   -I./peaks_analyser/ \
 		   -I./peaks_correlation/ \
-		   -I./pitch_detection/
+		   -I./pitch_detection/ \
+		   -I$(UNITTEST_DIR) \
+		   -I$(WAVE_FILE_INCLUDES)
 
 # BINARIES
 
@@ -33,14 +36,14 @@ testReharmoniser: reharmoniser.test.o reharmoniser.o midi.o
 	make --directory=$(WAVE_FILE_DIRECTORY) objects
 	$(CC) $(CFLAGS) -o testReharmoniser $(WAVE_FILE_OBJECT_FILES_FULL_PATH) reharmoniser.test.o reharmoniser.o midi.o
 
-testIntComplex: int_complex.test.o int_complex.o unittest.o
-	$(CC) $(CFLAGS) -o testIntComplex int_complex.test.o unittest.o int_complex.o
+testIntComplex: int_complex.test.o int_complex.o $(UNITTEST_DIR)unittest.o
+	$(CC) $(CFLAGS) -o testIntComplex int_complex.test.o int_complex.o $(UNITTEST_DIR)unittest.o
 
-testDoubleComplex: double_complex.test.o double_complex.o unittest.o
-	$(CC) $(CFLAGS) -o testDoubleComplex double_complex.test.o double_complex.o unittest.o
+testDoubleComplex: double_complex.test.o double_complex.o $(UNITTEST_DIR)unittest.o
+	$(CC) $(CFLAGS) -o testDoubleComplex double_complex.test.o double_complex.o $(UNITTEST_DIR)unittest.o
 
-testPitchDetection: pitch_detection.test.o pitch_detection.o peaks_correlation.o peaks_analyser.o fourier_transform.o frequency_bin_typedef.o int_complex.o double_complex.o unittest.o
-	$(CC) $(CFLAGS) -o testPitchDetection pitch_detection.test.o pitch_detection.o peaks_correlation.o peaks_analyser.o fourier_transform.o frequency_bin_typedef.o int_complex.o double_complex.o unittest.o
+testPitchDetection: pitch_detection.test.o pitch_detection.o peaks_correlation.o peaks_analyser.o fourier_transform.o frequency_bin_typedef.o int_complex.o double_complex.o $(UNITTEST_DIR)/unittest.o
+	$(CC) $(CFLAGS) -o testPitchDetection pitch_detection.test.o pitch_detection.o peaks_correlation.o peaks_analyser.o fourier_transform.o frequency_bin_typedef.o int_complex.o double_complex.o $(UNITTEST_DIR)/unittest.o
 
 
 # OBJECT FILES
@@ -54,9 +57,6 @@ int_complex.o: int_complex/int_complex.c
 
 double_complex.o: double_complex/double_complex.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c double_complex/double_complex.c
-
-unittest.o: unittest/unittest.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c unittest/unittest.c
 
 midi.o: midi/midi.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c midi/midi.c
@@ -81,7 +81,7 @@ pitch_detection.o: pitch_detection/pitch_detection.c
 
 # TESTS
 reharmoniser.test.o: reharmoniser/tests/reharmoniser.test.c
-	$(CC) $(CFLAGS) $(INCLUDES) $(WAVE_FILE_INCLUDES) -c reharmoniser/tests/reharmoniser.test.c
+	$(CC) $(CFLAGS) $(INCLUDES) -c reharmoniser/tests/reharmoniser.test.c
 
 int_complex.test.o: int_complex/tests/int_complex.test.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c int_complex/tests/int_complex.test.c

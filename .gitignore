@@ -16,10 +16,10 @@
 .*
 
 # Unignore git hidden files, license, makefile and a_note.wav
-!/.gitignore
-!/.gitmodules
+!.gitignore
+!.gitmodules
 
-!/Makefile
-!/LICENSE
+!Makefile
+!LICENSE
 
-!/reharmoniser/tests/a_note.wav
+!reharmoniser/tests/a_note.wav
