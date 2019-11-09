@@ -14,8 +14,6 @@ WAVE_FILE_DIR = ./reharmoniser/tests/Write-WAV-File/
 WAVE_FILE_OBJECT_FILES = endianness.o wave_header.o wave.o wave_file.o
 WAVE_FILE_OBJECT_FILES_FULL_PATH = $(patsubst %,$(WAVE_FILE_DIR)%,$(WAVE_FILE_OBJECT_FILES))
 
-INCLUDES = -I$(UNITTEST_DIR) -I$(WAVE_FILE_DIR)
-
 # EXECUTABLES
 
 testReharmoniser: reharmoniser.test.o reharmoniser.o midi.o
@@ -35,47 +33,47 @@ testPitchDetection: pitch_detection.test.o pitch_detection.o peaks_correlation.o
 
 # BASIC LIBRARIES
 reharmoniser.o: reharmoniser/reharmoniser.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c reharmoniser/reharmoniser.c
+	$(CC) $(CFLAGS) -c reharmoniser/reharmoniser.c
 
 int_complex.o: int_complex/int_complex.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c int_complex/int_complex.c
+	$(CC) $(CFLAGS) -c int_complex/int_complex.c
 
 double_complex.o: double_complex/double_complex.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c double_complex/double_complex.c
+	$(CC) $(CFLAGS) -c double_complex/double_complex.c
 
 midi.o: midi/midi.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c midi/midi.c
+	$(CC) $(CFLAGS) -c midi/midi.c
 
 
 # PITCH DETECTION LIBRARIES
 fourier_transform.o: fourier_transform/fourier_transform.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c fourier_transform/fourier_transform.c
+	$(CC) $(CFLAGS) -c fourier_transform/fourier_transform.c
 
 frequency_bin_typedef.o: frequency_bin_typedef/frequency_bin_typedef.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c frequency_bin_typedef/frequency_bin_typedef.c
+	$(CC) $(CFLAGS) -c frequency_bin_typedef/frequency_bin_typedef.c
 
 peaks_analyser.o: peaks_analyser/peaks_analyser.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c peaks_analyser/peaks_analyser.c
+	$(CC) $(CFLAGS) -c peaks_analyser/peaks_analyser.c
 
 peaks_correlation.o: peaks_correlation/peaks_correlation.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c peaks_correlation/peaks_correlation.c
+	$(CC) $(CFLAGS) -c peaks_correlation/peaks_correlation.c
 
 pitch_detection.o: pitch_detection/pitch_detection.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c pitch_detection/pitch_detection.c
+	$(CC) $(CFLAGS) -c pitch_detection/pitch_detection.c
 
 
 # TESTS
 reharmoniser.test.o: reharmoniser/tests/reharmoniser.test.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c reharmoniser/tests/reharmoniser.test.c
+	$(CC) $(CFLAGS) -c reharmoniser/tests/reharmoniser.test.c
 
 int_complex.test.o: int_complex/tests/int_complex.test.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c int_complex/tests/int_complex.test.c
+	$(CC) $(CFLAGS) -c int_complex/tests/int_complex.test.c
 
 double_complex.test.o: double_complex/tests/double_complex.test.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c double_complex/tests/double_complex.test.c
+	$(CC) $(CFLAGS) -c double_complex/tests/double_complex.test.c
 
 pitch_detection.test.o: pitch_detection/tests/pitch_detection.test.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c pitch_detection/tests/pitch_detection.test.c
+	$(CC) $(CFLAGS) -c pitch_detection/tests/pitch_detection.test.c
 
 
 # VERIFY ARDUINO SKETCHES
