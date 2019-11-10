@@ -13,7 +13,7 @@ int main(void){
     int32_t* a_note_array = NULL;
     int32_t* chord_array = NULL;
 
-    Wave a_note = read_wave(a_note_filename);
+    Wave a_note = read_wave_metadata(a_note_filename);
 
     printf("Metadata read from %s:\n", a_note_filename);
     print_metadata(&a_note);
