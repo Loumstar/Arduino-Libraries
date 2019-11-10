@@ -17,7 +17,7 @@ extern "C" {
         #include "double_complex.h"
     #endif
     
-    void convert_to_frequency_domain(int_complex sample[], int_complex copy[], int sample_array_size);
+    void convert_to_frequency_domain(int_complex frame[], int_complex copy[], int frame_array_size);
 
 #endif
 

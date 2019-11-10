@@ -23,8 +23,8 @@ extern "C" {
     #define PD_SAMPLE_RATE 2560
     //The number of values each frame can take tp describe the waveform.
     #define PD_SAMPLE_BIT_DEPTH 1024
-    //The number of frames in a sample. Must be a power of two.
-    #define PD_SAMPLE_ARR_SIZE 512
+    //The number of samples in a frame. Must be a power of two.
+    #define PD_FRAME_ARR_SIZE 512
     //The minimum ratio of the amplitude of a frequency, relative
     //to that of similar frequencies, which would add it to the list of notes.
     #define PD_NOTE_THRESHOLD 2.5
@@ -33,7 +33,7 @@ extern "C" {
     //The size of the array that holds all the possible notes of the pitch of the audio
     #define PD_NOTES_ARR_SIZE 20
 
-    void get_notes(const int_complex sample[], frequency_bin notes[]);
+    void get_notes(const int_complex frame[], frequency_bin notes[]);
 
 #endif
 

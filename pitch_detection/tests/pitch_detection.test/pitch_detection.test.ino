@@ -5,22 +5,22 @@
 #include "int_complex.h"
 #include "unittest.h"
 
-int_complex sample_signal[PD_SAMPLE_ARR_SIZE];
-int_complex sample_signal_copy[PD_SAMPLE_ARR_SIZE];
+int_complex frame_array[PD_FRAME_ARR_SIZE];
+int_complex frame_array_copy[PD_FRAME_ARR_SIZE];
 
 frequency_bin notes[PD_NOTES_ARR_SIZE];
 double harmonics[PD_HARMONICS_ARR_SIZE];
 
 char msg[100];
 
-void create_signal(const double a[3][2], double offset, int_complex sample_signal[], size_t length){
-    for(size_t i = 0; i < PD_SAMPLE_ARR_SIZE; i++){
+void create_signal(const double a[3][2], double offset, int_complex frame_array[], size_t length){
+    for(size_t i = 0; i < PD_FRAME_ARR_SIZE; i++){
         int sum = 0;
         for(size_t j = 0; j < length; j++){
             sum += a[j][1] * sin((double) 2 * M_PI * a[j][0] * i / PD_SAMPLE_RATE);
         }
-        sample_signal[i][0] = sum + offset;
-        sample_signal[i][1] = 0;
+        frame_array[i][0] = sum + offset;
+        frame_array[i][1] = 0;
     }
 }
 
@@ -35,14 +35,14 @@ void loop(void){
     uint32_t main_start = micros();
     uint32_t start, end;
 
-    double frequency_resolution = PD_SAMPLE_RATE / PD_SAMPLE_ARR_SIZE;
+    double frequency_resolution = PD_SAMPLE_RATE / PD_FRAME_ARR_SIZE;
     
     //Output basic properties of the transform.
     sprintf(msg, "The maximum frequency measured is %i Hz.\n", (int) PD_SAMPLE_RATE / 2);
     Serial.print(msg);
     sprintf(msg, "The frequency resolution is %.1f Hz.\n", frequency_resolution);
     Serial.print(msg);
-    sprintf(msg, "The length of the clip is %.3fs.\n\n", (double) PD_SAMPLE_ARR_SIZE / PD_SAMPLE_RATE);
+    sprintf(msg, "The length of the clip is %.3fs.\n\n", (double) PD_FRAME_ARR_SIZE / PD_SAMPLE_RATE);
     Serial.print(msg);
 
     //example basic waveform.  
@@ -56,7 +56,7 @@ void loop(void){
 
     //measure time taken to create the test signal.
     start = micros();
-    create_signal(a, 0, sample_signal, a_size);
+    create_signal(a, 0, frame_array, a_size);
     end = micros();
 
     sprintf(msg, "Signal created in %.3f ms.\n", (double) (end - start) * 1000);
@@ -64,7 +64,7 @@ void loop(void){
 
     //Measure time taken to determine all possible pitches
     start = micros();
-    get_pitches(sample_signal, sample_signal_copy, notes, harmonics);
+    get_pitches(frame_array, frame_array_copy, notes, harmonics);
     end = micros();
 
     sprintf(msg, "Signal analysed in %.3f ms.\n\n", (double) (end - start) * 1000);

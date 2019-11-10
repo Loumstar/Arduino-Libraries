@@ -19,25 +19,25 @@ int_complex* create_signal(const double a[3][2], double offset, size_t length){
     The oscillation can be a combination of frequencies and volumes and are returned
     as a int_complex datatype with only real components, so fft can be applied to it.
     */
-    int_complex* sample_signal = malloc(sizeof(int_complex) * PD_SAMPLE_ARR_SIZE);
-    for(size_t i = 0; i < PD_SAMPLE_ARR_SIZE; i++){
+    int_complex* frame_array = malloc(sizeof(int_complex) * PD_FRAME_ARR_SIZE);
+    for(size_t i = 0; i < PD_FRAME_ARR_SIZE; i++){
         int sum = 0;
         for(size_t j = 0; j < length; j++){
             sum += a[j][1] * sin((double) 2 * M_PI * a[j][0] * i / PD_SAMPLE_RATE);
         }
-        sample_signal[i][0] = sum + offset;
-        sample_signal[i][1] = 0;
+        frame_array[i][0] = sum + offset;
+        frame_array[i][1] = 0;
     }
-    return sample_signal;
+    return frame_array;
 }
 
 int main(void){
     clock_t main_start = clock();
     clock_t start, end;
 
-    double frequency_resolution = PD_SAMPLE_RATE / PD_SAMPLE_ARR_SIZE;
+    double frequency_resolution = PD_SAMPLE_RATE / PD_FRAME_ARR_SIZE;
     
-    if(!is_power_of_two(PD_SAMPLE_ARR_SIZE)){
+    if(!is_power_of_two(PD_FRAME_ARR_SIZE)){
         printf("The number of frames in the clip must be a power of two.\n");
         return 1;
     }
@@ -45,7 +45,7 @@ int main(void){
     //Output basic properties of the transform.
     printf("The maximum frequency measured is %i Hz.\n", (int) PD_SAMPLE_RATE / 2);
     printf("The frequency resolution is %.1f Hz.\n", frequency_resolution);
-    printf("The length of the clip is %.3fs.\n\n", (double) PD_SAMPLE_ARR_SIZE / PD_SAMPLE_RATE);
+    printf("The length of the clip is %.3fs.\n\n", (double) PD_FRAME_ARR_SIZE / PD_SAMPLE_RATE);
 
     //example basic waveform.  
     size_t a_size = 3;   
@@ -58,8 +58,8 @@ int main(void){
 
     //measure time taken to create the test signal.
     start = clock();
-    int_complex* sample_signal = create_signal(a, 0, a_size);
-    int_complex* copy = malloc(sizeof(int_complex) * PD_SAMPLE_ARR_SIZE);
+    int_complex* frame_array = create_signal(a, 0, a_size);
+    int_complex* copy = malloc(sizeof(int_complex) * PD_FRAME_ARR_SIZE);
     end = clock();
 
     printf("Signal created in %.3f ms.\n", (double) (end - start) / CLOCKS_PER_SEC * 1000);
@@ -67,8 +67,8 @@ int main(void){
     frequency_bin* notes = malloc(FREQUENCY_BIN_SIZE * PD_NOTES_ARR_SIZE);
     double* harmonics = malloc(sizeof(double) * PD_HARMONICS_ARR_SIZE);
 
-    if(!sample_signal || !copy || !harmonics || !notes){
-        if(sample_signal) free(sample_signal);
+    if(!frame_array || !copy || !harmonics || !notes){
+        if(frame_array) free(frame_array);
         if(copy) free(copy);
         if(harmonics) free(harmonics);
         if(notes) free(notes);
@@ -77,7 +77,7 @@ int main(void){
 
     //Measure time taken to determine all possible pitches
     start = clock();
-    get_pitches(sample_signal, copy, notes, harmonics);
+    get_pitches(frame_array, copy, notes, harmonics);
     end = clock();
 
     printf("Signal analysed in %.3f ms.\n\n", (double) (end - start) / CLOCKS_PER_SEC * 1000);
@@ -97,7 +97,7 @@ int main(void){
     print_frequency_bin(&pitch_bin, msg, 0);
     printf("%s", msg);
     
-    free(sample_signal);
+    free(frame_array);
     free(copy);
     free(harmonics);
     free(notes);

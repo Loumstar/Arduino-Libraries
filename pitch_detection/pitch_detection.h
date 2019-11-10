@@ -23,11 +23,11 @@ extern "C" {
         #include "peaks_correlation.h"
     #endif
 
-    void get_pitches(int_complex sample[], int_complex copy[], frequency_bin notes[], double harmonics[]);
+    void get_pitches(int_complex frame[], int_complex copy[], frequency_bin notes[], double harmonics[]);
 
     void get_pitch_bin(frequency_bin notes[], frequency_bin pitch_bin);
 
-    double get_pitch(int_complex sample[], int_complex copy[], frequency_bin notes[], double harmonics[]);
+    double get_pitch(int_complex frame[], int_complex copy[], frequency_bin notes[], double harmonics[]);
 
 #endif
 

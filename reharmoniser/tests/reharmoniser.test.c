@@ -41,7 +41,7 @@ int main(void){
     }
 
     for(size_t i = 0; i < a_note.numberof_samples; i++){
-        chord_array[i] = get_reharmonised_wave_amplitude(a_note_array, notes, 440.0, i, a_note.numberof_samples);
+        chord_array[i] = get_reharmonised_sample(a_note_array, notes, 440.0, i, a_note.numberof_samples);
     }
 
     write_array_to_wav_file(chord_filename, chord_array, a_note.numberof_samples, 2, a_note.header.sample_rate, bits_per_sample);
